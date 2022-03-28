@@ -247,21 +247,7 @@ public function get_jumlah_masuk_charts(){
     return $query=$this->db->query($sql,$level);
   }
 
-//PROFILE
-  public function get_profile($id){
-    $sql='SELECT * FROM tb_user WHERE user_id = ?';
-    return $query=$this->db->query($sql,$id)->row_array();
-  }  
 
-  public function cek_username($username,$id){
-    $sql='SELECT * FROM tb_user WHERE user_username=? AND user_id!=?';
-    return $query=$this->db->query($sql,array($username,$id))->row_array();
-  }
-
-  public function cek_username_aja($username){
-    $sql='SELECT * FROM tb_user WHERE user_username=?';
-    return $query=$this->db->query($sql,$username)->row_array();
-  }
 
 
 //  PENGGUNA
@@ -304,6 +290,53 @@ public function get_jumlah_masuk_charts(){
       return $query=$this->db->query($sql,array($jenis,$id));
     }
 
+
+
+    //GURU
+
+    public function get_total_guru(){
+      $sql='SELECT COUNT(id_guru) AS total FROM tb_guru';
+      return $query=$this->db->query($sql);
+    }
+    
+    public function get_guru(){
+      $sql='SELECT * FROM tb_guru ORDER BY id_guru ASC';
+      return $query=$this->db->query($sql);
+    }
+
+
+    //SISWA
+
+    public function get_total_siswa(){
+      $sql='SELECT COUNT(id_siswa) AS total FROM tb_siswa';
+      return $query=$this->db->query($sql);
+    }
+
+
+    //ASET
+
+    public function get_total_aset(){
+      $sql='SELECT COUNT(id_aset) AS total FROM tb_aset';
+      return $query=$this->db->query($sql);
+    }
+
+
+
+    //PROFILE
+  public function get_akun($id){
+    $sql='SELECT * FROM users WHERE id_user = ?';
+    return $query=$this->db->query($sql,$id)->row_array();
+  }  
+
+  public function cek_username($username,$id){
+    $sql='SELECT * FROM users WHERE username=? AND id_user!=?';
+    return $query=$this->db->query($sql,array($username,$id))->row_array();
+  }
+
+  public function cek_username_aja($username){
+    $sql='SELECT * FROM users WHERE username=?';
+    return $query=$this->db->query($sql,$username)->row_array();
+  }
 
 
 }

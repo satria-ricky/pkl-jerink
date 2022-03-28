@@ -13,7 +13,7 @@ class M_update extends CI_model {
 
     //PFORILE
     public function edit_profile($data,$id){     
-      $this->db->update('tb_user', $data, array('user_id' => $id));
+      $this->db->update('users', $data, array('id_user' => $id));
     }
 
 

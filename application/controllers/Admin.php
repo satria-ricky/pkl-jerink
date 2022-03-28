@@ -10,40 +10,6 @@ class Admin extends CI_Controller {
     }
 
 
-function validasi_option($id)
-{
-    if($id == ""){
-        $this->form_validation->set_message('validasi_option', 'Silahkan pilih opsi!');
-        return false;
-    } else{
-        return true;
-    }
-
-}
-
-
-function validasi_rekening_keluar()
-{
-    $v_kode_rekening = $this->input->post('kode_rekening');
-    $v_tahun = $this->input->post('tahun');
-
-    if (!$this->input->post('id')) {
-        if ($keluar_check = $this->M_read->cek_kode_rekenening_keluar($v_kode_rekening,$v_tahun)) {
-           $this->form_validation->set_message('validasi_rekening_keluar','Kode Rekening ditahun ini telah tersedia!');
-            return FALSE;   
-        }
-        return TRUE;
-    }else{
-        if ($keluar_check = $this->M_read->cek_kode_rekenening_keluar_e($v_kode_rekening,$v_tahun,$this->input->post('id'))) {
-           $this->form_validation->set_message('validasi_rekening_keluar','Kode Rekening ditahun ini telah tersedia!');
-            return FALSE;   
-        }
-        return TRUE;
-    }
-    
-}
-
-
 function validasi_username()
 {
     $v_username = $this->input->post('username');
@@ -51,13 +17,13 @@ function validasi_username()
 
     if (!$v_id) {
         if ($this->M_read->cek_username_aja($v_username)) {
-            $this->form_validation->set_message('validasi_username','Username ini telah tersedia!');
+            $this->session->set_flashdata('error', 'Username telah tersedia!');
             return FALSE;   
         }
         return TRUE;
     }else {
         if ($this->M_read->cek_username($v_username,$v_id)) {
-            $this->form_validation->set_message('validasi_username','Username ini telah tersedia!');
+            $this->session->set_flashdata('error', 'Username telah tersedia!');
             return FALSE;   
         }
         return TRUE;    
@@ -68,34 +34,77 @@ function validasi_username()
 }
 
 
-function validasi_rekening_masuk()
-{
-    $v_kode_rekening = $this->input->post('kode_rekening');
-    $v_tahun = $this->input->post('tahun');
+//BERANDA
+public function index(){
 
-    if (!$this->input->post('id')) {
-        if ($keluar_check = $this->M_read->cek_kode_rekenening_masuk($v_kode_rekening,$v_tahun)) {
-           $this->form_validation->set_message('validasi_rekening_masuk','Kode Rekening ditahun ini telah tersedia!');
-            return FALSE;   
-        }
-        return TRUE;
-    }else{
-        if ($keluar_check = $this->M_read->cek_kode_rekenening_masuk_e($v_kode_rekening,$v_tahun,$this->input->post('id'))) {
-           $this->form_validation->set_message('validasi_rekening_masuk','Kode Rekening ditahun ini telah tersedia!');
-            return FALSE;   
-        }
-        return TRUE;
+        $v_data['is_aktif'] = 'beranda';
+        $total_guru = $this->M_read->get_total_guru()->row_array();
+        $total_siswa = $this->M_read->get_total_siswa()->row_array();
+        $total_aset = $this->M_read->get_total_aset()->row_array();
+        $v_data['isi_konten'] = '
+
+            <div class="row">         
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">DAFTAR GURU</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"> '.$total_guru['total'].' </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-users fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">DAFTAR SISWA</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"> '.$total_siswa['total'].' </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-users fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">DAFTAR ASET</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"> '.$total_aset['total'].' </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-list fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>    
+          </div>
+
+        ';
+        $this->load->view('templates/header',$v_data);
+        $this->load->view('templates/sidebar',$v_data);
+        $this->load->view('templates/topbar',$v_data);
+        $this->load->view('beranda/beranda',$v_data);
+        $this->load->view('templates/footer');            
     }
-    
-}
+
 
 
 //PROFILE
 
     public function profile(){
-
-        $v_data['is_aktif'] = 'pengaturan';
-        $v_data['invisible_ttd'] = 'yes';
+        
         $v_id = $this->session->userdata('id_user');
 
         $v_data['data'] = $this->M_read->get_profile($v_id);
@@ -114,9 +123,11 @@ function validasi_rekening_masuk()
         
 
         if($this->form_validation->run() == false){
-            $this->load->view('templates/header_admin',$v_data);
+            $this->load->view('templates/header',$v_data);
+            $this->load->view('templates/sidebar',$v_data);
+            $this->load->view('templates/topbar',$v_data);
             $this->load->view('profile/profile',$v_data);
-            $this->load->view('templates/footer_admin');      
+            $this->load->view('templates/footer');       
         }
         else{
             $v_nama = $this->input->post('nama');
@@ -162,22 +173,103 @@ function validasi_rekening_masuk()
     }
 
 
+     public function pengaturan(){
+        
+        $v_id = $this->session->userdata('id_user');
+        $v_data['is_aktif'] = 'pengaturan';
 
-//BERANDA
-public function index(){
+        $v_data['data'] = $this->M_read->get_akun($v_id);
 
-        $v_data['is_aktif'] = 'beranda';
-        $v_data['tahun_charts_keluar'] = $this->M_read->get_tahun_keluar_charts();
-        $v_data['jumlah_charts_keluar'] = $this->M_read->get_jumlah_keluar_charts();
-        $v_data['tahun_charts_masuk'] = $this->M_read->get_tahun_masuk_charts();
-        $v_data['jumlah_charts_masuk'] = $this->M_read->get_jumlah_masuk_charts();
+        $this->form_validation->set_rules('username', 'Username', 'required|trim|callback_validasi_username', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+        
 
-        $this->load->view('templates/header_admin',$v_data);
-        $this->load->view('beranda/beranda',$v_data);
-        $this->load->view('templates/footer_admin');
-        $this->load->view('templates/charts',$v_data);              
+        if($this->form_validation->run() == false){
+            $this->load->view('templates/header');
+            $this->load->view('templates/sidebar',$v_data);
+            $this->load->view('templates/topbar');
+            $this->load->view('profile/profile',$v_data);
+            $this->load->view('templates/footer');       
+        }
+        else{
+            $v_username = $this->input->post('username');
+            $v_password = $this->input->post('password');
+
+            $v_data = [
+                'username' => $v_username,
+                'password' => $v_password
+            ];
+            
+            $this->M_update->edit_profile($v_data,$v_id);
+            $this->session->set_flashdata('pesan', 'Profile berhasil diubah!');
+            redirect('admin/pengaturan');       
+        }             
     }
 
+
+
+//GURU
+    public function daftar_guru(){
+        $v_data['is_aktif'] = 'guru';
+
+
+        $list_data = $this->M_read->get_guru();
+        $v_data['isi_konten'] = '';
+
+        $v_data['isi_konten'] .= '
+            
+            <table id="example" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                 <tr>
+                    <th style="text-align: center;">#NO</th>
+                    <th style="text-align: center;">NIP</th>
+                    <th style="text-align: center;">Nama Guru</th>
+                    <th style="text-align: center;">Tanggal Lahir</th>
+                    <th style="text-align: center;">Jenis Kelamin</th>
+                    <th style="text-align: center;">No. Telpon</th>
+                    <th style="text-align: center;">Aksi</th>
+                  </tr>
+                </thead>
+            <tbody>  
+        ';
+
+        if($list_data->num_rows() > 0)
+        {
+            $index=1;
+            foreach($list_data->result() as $row)
+            {
+                $v_data['isi_konten'] .= '
+                    <tr>
+                        <td style="text-align: center;">'. $index.'</td>
+                        <td>'.$row->nip_guru.'</td>
+                        <td>'.$row->nama_guru.'</td>
+                        <td>'.$row->tgl_guru.'</td>
+                        <td style="text-align: center;">'.$row->jk_guru.'</td>
+                        <td>'.$row->telp_guru.'</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" onclick="button_edit(\''."guru".'\', \''.encrypt_url($row->id_guru).'\')"><i class="fas fa-edit"></i> Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="button_hapus(\''."guru".'\', \''.encrypt_url($row->id_guru).'\')"><i class="fa fa-trash"></i> Hapus</button >
+                        </td>
+                    </tr>
+
+                '; 
+                $index++;
+            }   
+        }
+
+       $v_data['isi_konten']  .= ' 
+            </tbody>
+           </table>
+       ';
+
+
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar',$v_data);
+        $this->load->view('templates/topbar');
+        $this->load->view('kelola_guru/daftar_guru',$v_data);
+        $this->load->view('templates/footer');  
+    }
 
 
 //PENGELUARAN
@@ -185,8 +277,6 @@ public function index(){
 public function keluar(){
 
         $v_data['is_aktif'] = 'keluar';
-        // $v_data['tahun_charts'] = $this->M_read->get_tahun_keluar_charts();
-        // $v_data['jumlah_charts'] = $this->M_read->get_jumlah_keluar_charts();
         $list_tahun = $this->M_read->get_tahun_masuk();
         $data_tahun = '';
         if($list_tahun->num_rows() > 0)
