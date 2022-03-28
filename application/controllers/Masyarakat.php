@@ -13,8 +13,4 @@ class Masyarakat extends CI_Controller {
     }
 
 
-   
-     
-    
-
 }

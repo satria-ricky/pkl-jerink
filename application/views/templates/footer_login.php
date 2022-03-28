@@ -1,14 +1,40 @@
  <!-- Bootstrap core JavaScript-->
-  <script src="/SI_jakem/assets/vendor/jquery/jquery.min.js"></script>
-  <script src="/SI_jakem/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="<?= base_url('assets/'); ?>vendor/jquery/jquery.min.js"></script>
+  <script src="<?= base_url('assets/'); ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="/SI_jakem/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="<?= base_url('assets/'); ?>vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="/SI_jakem/assets/js/sb-admin-2.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <script src="<?= base_url('assets/'); ?>js/sb-admin-2.min.js"></script>
+ 
 
 </body>
 
 </html>
+
+ <?php if($this->session->flashdata('error')){ ?>
+  <script>
+    swal("<?php echo $this->session->flashdata('error'); ?>", {
+        icon : "error",
+        buttons: {                  
+            confirm: {
+                className : 'btn btn-danger'
+            }
+        },
+    });
+  </script>
+<?php } ?>
+
+<?php if($this->session->flashdata('pesan')){ ?>
+  <script>
+    swal("<?php echo $this->session->flashdata('pesan'); ?>", {
+        icon : "success",
+        buttons: {                  
+            confirm: {
+                className : 'btn btn-success'
+            }
+        },
+    });
+  </script>
+<?php } ?>
