@@ -212,7 +212,7 @@ public function index(){
 //GURU
     public function daftar_guru(){
         $v_data['is_aktif'] = 'guru';
-
+        $v_data['judul_daftar'] = 'Daftar Guru';
 
         $list_data = $this->M_read->get_guru();
         $v_data['isi_konten'] = '';
@@ -248,8 +248,9 @@ public function index(){
                         <td style="text-align: center;">'.$row->jk_guru.'</td>
                         <td>'.$row->telp_guru.'</td>
                         <td>
-                            <button class="btn btn-primary btn-sm" onclick="button_edit(\''."guru".'\', \''.encrypt_url($row->id_guru).'\')"><i class="fas fa-edit"></i> Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="button_hapus(\''."guru".'\', \''.encrypt_url($row->id_guru).'\')"><i class="fa fa-trash"></i> Hapus</button >
+                            <a href="#" class="badge badge-info">Detail</a>
+                            <a href="#" class="badge badge-primary">Edit</a>
+                            <a href="javascript:;" class="badge badge-danger" onclick="button_hapus(\''."guru".'\', \''.encrypt_url($row->id_guru).'\')">Hapus</a >
                         </td>
                     </tr>
 
@@ -267,8 +268,88 @@ public function index(){
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar',$v_data);
         $this->load->view('templates/topbar');
-        $this->load->view('kelola_guru/daftar_guru',$v_data);
+        $this->load->view('daftar/daftar',$v_data);
         $this->load->view('templates/footer');  
+    }
+
+
+    public function edit_guru($id){
+
+        $v_id = decrypt_url($id);
+
+        $v_data['is_aktif'] = 'guru';
+
+        // $list_data_jenis = $this->M_read->get_jenis_by_sumber($v_data['data_edit']['id_sumber_masuk']);
+
+        if($this->form_validation->run() == false){
+            $this->load->view('templates/header');
+            $this->load->view('templates/sidebar',$v_data);
+            $this->load->view('templates/topbar');
+            $this->load->view('edit/edit_guru',$v_data);
+            $this->load->view('templates/footer');    
+        }
+        else{
+
+            $v_sumber = $this->input->post('sumber');
+            $v_jenis = $this->input->post('jenis');
+            $v_rincian = $this->input->post('rincian');
+            $v_kode_rekening = $this->input->post('kode_rekening');
+            $v_tahun     = $this->input->post('tahun');
+            $v_jumlah = $this->input->post('jumlah');
+            
+            $v_data = [
+                'rekening_masuk' => $v_kode_rekening,
+                'jumlah_masuk' => $v_jumlah,
+                'rincian_masuk' => $v_rincian,
+                'tahun_masuk' => $v_tahun,
+                'id_sumber_masuk' => $v_sumber,
+                'id_jenis_sumber_masuk' => $v_jenis
+            ];
+
+            $this->M_update->edit_masuk($v_data,$v_id);
+            $this->session->set_flashdata('pesan', 'Data berhasil diubah!');
+            redirect('admin/masuk');
+
+        }
+    }
+
+
+    public function tambah_guru(){
+
+        $v_data['is_aktif'] = 'guru';
+        $v_data['judul_daftar'] = 'Tambah Data Guru';
+        // $list_data_jenis = $this->M_read->get_jenis_by_sumber($v_data['data_edit']['id_sumber_masuk']);
+
+        if($this->form_validation->run() == false){
+            $this->load->view('templates/header');
+            $this->load->view('templates/sidebar',$v_data);
+            $this->load->view('templates/topbar');
+            $this->load->view('tambah/tambah_guru',$v_data);
+            $this->load->view('templates/footer');    
+        }
+        else{
+
+            $v_sumber = $this->input->post('sumber');
+            $v_jenis = $this->input->post('jenis');
+            $v_rincian = $this->input->post('rincian');
+            $v_kode_rekening = $this->input->post('kode_rekening');
+            $v_tahun     = $this->input->post('tahun');
+            $v_jumlah = $this->input->post('jumlah');
+            
+            $v_data = [
+                'rekening_masuk' => $v_kode_rekening,
+                'jumlah_masuk' => $v_jumlah,
+                'rincian_masuk' => $v_rincian,
+                'tahun_masuk' => $v_tahun,
+                'id_sumber_masuk' => $v_sumber,
+                'id_jenis_sumber_masuk' => $v_jenis
+            ];
+
+            $this->M_update->edit_masuk($v_data,$v_id);
+            $this->session->set_flashdata('pesan', 'Data berhasil diubah!');
+            redirect('admin/masuk');
+
+        }
     }
 
 
@@ -1137,9 +1218,8 @@ public function filter_masuk(){
             redirect('admin/masuk');
 
         }
-
-
     }
+
 
     public function hapus_masuk($id){
         $v_id = decrypt_url($id);
