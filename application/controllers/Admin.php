@@ -28,11 +28,28 @@ function validasi_username()
         }
         return TRUE;    
     }
-    
-    
-    
 }
 
+
+function validasi_nip()
+{
+    $v_nip = $this->input->post('nip_guru');
+    $v_id = $this->input->post('user_id');
+
+    if (!$v_id) {
+        if ($this->M_read->cek_nip_aja($v_nip)) {
+            $this->session->set_flashdata('error', 'NIP telah tersedia!');
+            return FALSE;   
+        }
+        return TRUE;
+    }else {
+        if ($this->M_read->cek_nip($v_nip,$v_id)) {
+            $this->session->set_flashdata('error', 'NIP telah tersedia!');
+            return FALSE;   
+        }
+        return TRUE;    
+    }
+}
 
 //BERANDA
 public function index(){
@@ -116,6 +133,7 @@ public function index(){
         $this->form_validation->set_rules('username', 'Username', 'required|trim|callback_validasi_username', [
             'required' => 'Kolom harus diisi!',
         ]);
+
         $this->form_validation->set_rules('password', 'Password', 'required|trim', [
             'required' => 'Kolom harus diisi!',
         ]);
@@ -318,7 +336,14 @@ public function index(){
 
         $v_data['is_aktif'] = 'guru';
         $v_data['judul_daftar'] = 'Tambah Data Guru';
-        // $list_data_jenis = $this->M_read->get_jenis_by_sumber($v_data['data_edit']['id_sumber_masuk']);
+
+        $this->form_validation->set_rules('username', 'Username', 'required|trim|callback_validasi_username', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+
+        $this->form_validation->set_rules('nip_guru', 'Nip_guru', 'required|trim|callback_validasi_nip', [
+            'required' => 'Kolom harus diisi!',
+        ]);
 
         if($this->form_validation->run() == false){
             $this->load->view('templates/header');
@@ -329,25 +354,60 @@ public function index(){
         }
         else{
 
-            $v_sumber = $this->input->post('sumber');
-            $v_jenis = $this->input->post('jenis');
-            $v_rincian = $this->input->post('rincian');
-            $v_kode_rekening = $this->input->post('kode_rekening');
-            $v_tahun     = $this->input->post('tahun');
-            $v_jumlah = $this->input->post('jumlah');
-            
-            $v_data = [
-                'rekening_masuk' => $v_kode_rekening,
-                'jumlah_masuk' => $v_jumlah,
-                'rincian_masuk' => $v_rincian,
-                'tahun_masuk' => $v_tahun,
-                'id_sumber_masuk' => $v_sumber,
-                'id_jenis_sumber_masuk' => $v_jenis
-            ];
+            $v_username = $this->input->post('username');
+            $v_password = $this->input->post('password');
+            $v_nip_guru = $this->input->post('nip_guru');
+            $v_nama_guru = $this->input->post('nama_guru');
+            $v_jenis_kelamin = $this->input->post('jenis_kelamin');
+            $v_tgl_lahir = $this->input->post('tgl_lahir');
+            $v_nomer_telp = $this->input->post('nomer_telp');
+            $upload_foto = $_FILES['foto_guru']['name'];
 
-            $this->M_update->edit_masuk($v_data,$v_id);
-            $this->session->set_flashdata('pesan', 'Data berhasil diubah!');
-            redirect('admin/masuk');
+                if($upload_foto){
+                    
+                    $config['allowed_types'] = 'gif|jpg|png|jpeg';
+                    $config['max_size']     = '5000';
+                    $config['upload_path'] = './assets/penyimpanan_foto/guru/';
+                        
+                    $this->load->library('upload', $config);
+    
+                    if ($this->upload->do_upload('foto_guru')){
+                        $v_nama_foto = $this->upload->data('file_name');
+                        $v_data_informasi = [
+                            'nip_guru' => $v_nip_guru,
+                            'nama_guru' => $v_nama_guru,
+                            'tgl_guru' => $v_tgl_lahir,
+                            'jk_guru' => $v_jenis_kelamin,
+                            'telp_guru' => $v_nomer_telp,
+                            'foto_guru' => $v_nama_foto
+                        ];
+                    }
+                    else
+                    {
+                        echo $this->upload->display_errors();
+                    }
+    
+                }else{
+                    $v_data_informasi = [
+                        'nip_guru' => $v_nip_guru,
+                        'nama_guru' => $v_nama_guru,
+                        'tgl_guru' => $v_tgl_lahir,
+                        'jk_guru' => $v_jenis_kelamin,
+                        'telp_guru' => $v_nomer_telp
+                    ];
+                }
+
+                $v_id_akun = $this->M_create->create_guru($v_data_informasi);
+                $v_data_akun_guru = [
+                    'id_user' => $v_id_akun['id_guru'],
+                    'username' => $v_username,
+                    'password' => $v_password,
+                    'level_user' => 2
+                ];
+
+                $this->M_create->create_akun_guru($v_data_akun_guru);
+                $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
+                redirect("admin/daftar_guru");       
 
         }
     }

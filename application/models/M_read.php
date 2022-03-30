@@ -304,6 +304,16 @@ public function get_jumlah_masuk_charts(){
       return $query=$this->db->query($sql);
     }
 
+    public function cek_nip($v_nip,$id){
+      $sql='SELECT * FROM tb_guru WHERE nip_guru=? AND id_guru!=?';
+      return $query=$this->db->query($sql,array($v_nip,$id))->row_array();
+    }
+  
+    public function cek_nip_aja($v_nip){
+      $sql='SELECT * FROM tb_guru WHERE nip_guru=?';
+      return $query=$this->db->query($sql,$v_nip)->row_array();
+    }
+
 
     //SISWA
 

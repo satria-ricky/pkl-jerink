@@ -154,53 +154,63 @@ function button_edit(jenis,id) {
     });
 
   }
-  
-
-  
-
 }
 
+
+
+$('#button_tambah_guru').click(function(e) {
+
+  var radios = document.getElementsByName('jenis_kelamin');
+  var jk ='';
+  for (var i = 0, length = radios.length; i < length; i++) {
+    if (radios[i].checked) {
+      // do whatever you want with the checked radio
+      // alert(radios[i].value);
+      // console.log(radios[i].value);
+      jk = radios[i].value;
+      // only one radio can be logically checked, don't check the rest
+      break;
+    }
+  }
+
+  // console.log(jk);
+
+        if ($('#username').val() == '' || $('#password').val() == '' || $('#nip_guru').val() == '' || $('#nama_guru').val() == '' || $('#tgl_lahir').val() == '' || $('#nomer_telp').val() == '' || $('#foto_guru').val() == '' || jk == '')
+        {
+           swal({
+              title: 'Opppss!',
+              text: 'Harap isi semua form!',
+              icon: 'warning',
+              buttons: {                  
+                  confirm: {
+                      className : 'btn btn-focus'
+                  }
+              },
+          });
+        }
+        else {
+          swal({
+            title: 'Yakin ditambah?',
+            icon: 'warning',
+            buttons:{
+              confirm: {
+                text : 'Tambah',
+                className : 'btn btn-success'
+              },
+              cancel: {
+                text : 'Tidak',
+                visible: true,
+                className: 'btn btn-focus'
+              }
+            }
+          }).then((Tambah) => {
+            if (Tambah) {
+              document.getElementById("form_tambah_guru").submit();
+            } else {
+              swal.close();
+            }
+          });
+        }
+    });
+
 </script>
-
-<div class="modal fade" id="modal_edit_guru" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Data Guru</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        
-        <form method="post" id="form_modal_edit_pengguna" action="<?= base_url('admin/edit_guru'); ?>" enctype="multipart/form-data">
-          <input type="hidden" id="modal_edit_id_user" name="user_id">
-          <div class="form-group">
-            <label for="exampleFormControlSelect1">Nama Lengkap</label>
-            <input class="form-control" id="modal_edit_nama" name="nama" placeholder="nama lengkap..." required="">
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Username</label>
-            <input type="text" class="form-control" id="modal_edit_username" name="username" placeholder="username ..." required="">
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Password</label>
-            <input type="text" class="form-control" id="modal_edit_password" name="password" placeholder="password ..." required="">
-          </div>
-          <div class="form-group">
-            <img style="width: 200px; height: 130px; margin-top: 15px;" id="modal_edit_data_ttd" src="" alt="..." class="img-thumbnail">
-            <br>
-            <label for="exampleFormControlInput1">Ubah TTD?</label>
-            <input type="file" class="form-control" id="modal_edit_gambar_ttd" name="gambar_ttd" required="" accept="image/*">
-          </div>
-
-
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>

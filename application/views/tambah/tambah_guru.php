@@ -10,99 +10,121 @@
 
           <!-- Content Row -->
           <div class="card shadow mb-4">
-           
-          <div class="row">
+          <h5 class="mt-2 ml-2"> <b><u>Informasi Akun</u></b></h5>
+          <div class="row mt-4 ml-2 mr-2">
 
-            <div class="col-lg-7">
+            <div class="col-lg-10">
             
-              <form class="user" method="POST" action="/SI_PAUD/tambah_surat/proses/proses_tambah_surat_keluar.php" enctype="multipart/form-data">
-
-
-            <div id="barang">
+              <form class="user" id="form_tambah_guru" method="POST" action="<?= base_url(); ?>admin/tambah_guru" enctype="multipart/form-data">
                 
                 <div class="form-group">
                   <label class="control-label col-md-3" 
-                    for="nama_barang">NIP Guru : </label>
+                    for="nama_barang">*Username : </label>
                   <div class="col-md-8">
                     <input type="text" class="form-control reset" 
-                      autocomplete="off" id="nip_guru"  
-                      name="nip_guru" placeholder="NIP Guru ..." required>
+                      autocomplete="off" id="username"  
+                      name="username" placeholder="username Guru ..." required value="<?= set_value('username'); ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-md-4" 
-                    for="harga_barang">Nama Guru : </label>
+                    for="harga_barang">*Password : </label>
                   <div class="col-md-8">
                    <input type="text" class="form-control reset" 
-                      autocomplete="off"  id="nama_guru"  
-                      name="nama_guru" placeholder="Nama Guru ..." required>
+                      autocomplete="off"  id="password"  
+                      name="password" placeholder="password Guru ..." required value="<?= set_value('password'); ?>">
+                  </div>
+                </div>
+
+            </div><!-- end col-md-8 -->
+
+            
+          </div>
+        </div>
+
+
+        
+        <div class="card shadow">
+        <h5 class="mt-2 ml-2"> <b><u>Informasi Detail</u></b></h5>
+          <div class="row mb-2 mt-4 ml-2 mr-2">
+
+            <div class="col-lg-8">
+              <div class="form-group">
+                  <label class="control-label col-md-3" 
+                    for="nama_barang">*NIP Guru : </label>
+                  <div class="col-md-8">
+                    <input type="number" class="form-control reset" autocomplete="off" id="nip_guru"  
+                      name="nip_guru" placeholder="NIP Guru ..." required value="<?= set_value('nip_guru'); ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-md-4" 
-                    for="harga_barang">Jenis Kelamin : </label>
+                    for="harga_barang">*Nama Guru : </label>
+                  <div class="col-md-8">
+                   <input type="text" class="form-control reset" autocomplete="off"  id="nama_guru"  
+                      name="nama_guru" placeholder="Nama Guru ..." required value="<?= set_value('nama_guru'); ?>">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-4" 
+                    for="harga_barang">*Jenis Kelamin : </label>
                   <div class="col-md-8">
                    <div class="custom-control custom-radio">
-                      <input type="radio" id="customRadio1" name="jenis_kelamin" class="custom-control-input">
+                      <input type="radio" id="customRadio1" name="jenis_kelamin" value="L" class="custom-control-input">
                       <label class="custom-control-label" for="customRadio1">Laki - laki</label>
                     </div>
                     <div class="custom-control custom-radio">
-                      <input type="radio" id="customRadio2" name="jenis_kelamin" class="custom-control-input">
+                      <input type="radio" id="customRadio2" name="jenis_kelamin" value="P" class="custom-control-input">
                       <label class="custom-control-label" for="customRadio2">Perempuan</label>
                     </div>
                   </div>
                 </div>
              
-              </div><!-- end id barang -->
+          
 
                 <div class="form-group">
-                  <label class="control-label col-md-4" for="tgl_surat">Tanggal Lahir :</label>
+                  <label class="control-label col-md-4" for="tgl_surat">*Tanggal Lahir :</label>
                   <div class="col-md-8">
-                    <input type="date" class="form-control reset" 
-                      name="tgl_surat" id="tgl_surat" required>
+                    <input type="date" class="form-control reset" name="tgl_lahir" id="tgl_lahir" required value="<?= set_value('tgl_lahir'); ?>">
                   </div>
                 </div>
 
-             
-
-            <!-- </div>
-              </div> --><!-- end panel-->
-
-          </div><!-- end col-md-8 -->
+            </div><!-- end col-md-8 -->
 
 
-         <div class="col-md-4 mb">
-        <div class="col-md-12">
-            <div class="form-group">
-              <label for="total" class="besar">Nomor Telpon :</label>
-                <input type="text" class="form-control reset" 
-                name="perihal_surat" id="perihal_surat" placeholder="No telpon ..." required>
+            <div class="col-md-4 mb">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="total" class="besar">*Nomor Telpon :</label>
+                    <input type="number" class="form-control reset" 
+                    name="nomer_telp" id="nomer_telp" placeholder="No telpon ..." required value="<?= set_value('nomer_telp'); ?>">
+                </div>
+
+                <div class="form-group">
+                  <label>Foto Guru :</label>
+                    <input type="file" class="form-control reset" name="foto_guru" id="foto_guru" accept="image/x-png,image/gif,image/jpeg" required value="<?= set_value('foto_guru'); ?>">
+                </div>
+
+                    <hr>
+                    <button type="button" class="btn btn-primary btn-icon-split" id="button_tambah_guru">
+                      <span class="icon text-white-50">
+                        <i class="fas fa-plus"></i>
+                      </span>
+                      <span class="text" >Tambah Data</span>
+                    </button>
+                  </form>
+                
+              </div>
+                <br>
+                <b><p>Note : Tanda bintang (*) harapa diisi! </p></b>
+                
             </div>
-
-            <div class="form-group">
-              <label>Foto Guru :</label>
-                <input type="file" class="form-control reset" 
-                name="foto_surat" id="foto_surat" accept="image/x-png,image/gif,image/jpeg" required>
-            </div>
-
-                <hr>
-                <button class="btn btn-primary btn-icon-split" type="submit">
-                  <span class="icon text-white-50">
-                    <i class="fas fa-plus"></i>
-                  </span>
-                  <span class="text" >Tambah Data</span>
-                </button>
-              </form>
-            
-          </div>
-            <br>
-            <b><p>Note* : format tanggal "bulan-hari-tahun"</p></b>
-            
-          </div>
           </div>
         </div>
+
         </div>
         <!-- /.container-fluid -->
 
