@@ -304,6 +304,11 @@ public function get_jumlah_masuk_charts(){
       return $query=$this->db->query($sql);
     }
 
+    public function get_guru_by_id($id){
+      $sql='SELECT * FROM users LEFT JOIN tb_guru ON users.id_user = tb_guru.id_guru WHERE id_user=?';
+       return $query=$this->db->query($sql,$id);    
+     }
+
     public function cek_nip($v_nip,$id){
       $sql='SELECT * FROM tb_guru WHERE nip_guru=? AND id_guru!=?';
       return $query=$this->db->query($sql,array($v_nip,$id))->row_array();

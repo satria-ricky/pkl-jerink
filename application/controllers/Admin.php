@@ -266,8 +266,8 @@ public function index(){
                         <td style="text-align: center;">'.$row->jk_guru.'</td>
                         <td>'.$row->telp_guru.'</td>
                         <td>
-                            <a href="#" class="badge badge-info">Detail</a>
-                            <a href="#" class="badge badge-primary">Edit</a>
+                            <a href="javascript:;" class="badge badge-info">Detail</a>
+                            <a href="'.base_url().'admin/edit_guru/'.encrypt_url($row->id_guru).'" class="badge badge-primary">Edit</a>
                             <a href="javascript:;" class="badge badge-danger" onclick="button_hapus(\''."guru".'\', \''.encrypt_url($row->id_guru).'\')">Hapus</a >
                         </td>
                     </tr>
@@ -296,8 +296,9 @@ public function index(){
         $v_id = decrypt_url($id);
 
         $v_data['is_aktif'] = 'guru';
+        $v_data['judul_daftar'] = 'Edit Data Guru';
 
-        // $list_data_jenis = $this->M_read->get_jenis_by_sumber($v_data['data_edit']['id_sumber_masuk']);
+        $v_data['data'] = $this->M_read->get_guru_by_id($v_id)->row_array();
 
         if($this->form_validation->run() == false){
             $this->load->view('templates/header');
