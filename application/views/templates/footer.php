@@ -129,35 +129,6 @@ $('#button_edit_profile').click(function(e) {
     });
 
 
-//EDIT
-function button_edit(jenis,id) {
-  // console.log(jenis,id);
-  if (jenis == 'guru') {
-    $('#modal_edit_guru').modal('show');
-    $.ajax({
-      url: "<?php echo base_url(); ?>auth/get_guru",
-      data: {
-        id : id
-      },
-      type: "POST",
-      dataType: "json",
-      success: function(data) {
-          // console.log(data);
-          set_jabatan_edit(data.user_id_level);
-          document.getElementById("modal_edit_id_user").value = data.user_id;
-          document.getElementById("modal_edit_nama").value =  data.user_nama;
-          document.getElementById("modal_edit_username").value =  data.user_username;
-          document.getElementById("modal_edit_password").value =  data.user_password;
-          document.getElementById("modal_edit_data_ttd").src="<?= base_url('assets/foto/ttd/'); ?>"+data.user_ttd;
-          
-      }
-    });
-
-  }
-}
-
-
-
 $('#button_tambah_guru').click(function(e) {
 
   var radios = document.getElementsByName('jenis_kelamin');
@@ -255,4 +226,168 @@ $('#button_tambah_guru').click(function(e) {
   });
 
 
+  //HAPUS
+  function button_hapus($is,$id) {
+    swal({
+      title: 'Yakin Hapus Data?',
+      text: 'Data yang telah terhapus tidak dapat dipulihkan!',
+      icon: 'warning',
+      buttons:{
+        confirm: {
+          text : 'Hapus',
+          className : 'btn btn-danger'
+        },
+        cancel: {
+          text : 'Tidak',
+          visible: true,
+          className: 'btn btn-focus'
+        }
+      }
+    }).then((Hapus) => {
+      if (Hapus) {
+        
+        if ($is == 'guru') {
+            document.location.href = "<?php echo base_url('admin/hapus_guru/')?>"+$id;
+        }
+        else if ($is == 'siswa') {
+            document.location.href = "<?php echo base_url('admin/hapus_siswa/')?>"+$id;
+        }
+        else if ($is == 'aset') {
+            document.location.href = "<?php echo base_url('admin/hapus_aset/')?>"+$id;
+        }
+        
+
+      } else {
+        swal.close();
+      }
+    });
+    }
+
+
+
+function button_detail(jenis,id) {
+  // console.log(jenis,id);
+  if (jenis == 'guru') {
+    $('#modal_detail_guru').modal('show');
+    $.ajax({
+      url: "<?php echo base_url(); ?>auth/get_guru_by_id",
+      data: {
+        id : id
+      },
+      type: "POST",
+      dataType: "json",
+      success: function(data) {
+          // console.log(data);
+          $('#modal_nip_guru').html('NIP.'+data.nip_guru);
+          // document.getElementById("modal_nama_guru").value =  data.nama_guru;
+          // document.getElementById("modal_tgl_guru").value =  data.tgl_guru;
+          document.getElementById("modal_password_guru").value =  data.password;
+          document.getElementById("modal_username_guru").value =  data.username;
+          document.getElementById("modal_foto_guru").src="<?= base_url('assets/penyimpanan_foto/'); ?>"+data.foto_guru;
+          
+      }
+    });
+  }
+  else if (jenis == 'siswa'){
+    $('#modal_detail_siswa').modal('show');
+    $.ajax({
+      url: "<?php echo base_url(); ?>auth/get_siswa_by_id",
+      data: {
+        id : id
+      },
+      type: "POST",
+      dataType: "json",
+      success: function(data) {
+          // console.log(data);
+          set_jabatan_edit(data.user_id_level);
+          document.getElementById("modal_edit_id_user").value = data.user_id;
+          document.getElementById("modal_edit_nama").value =  data.user_nama;
+          document.getElementById("modal_edit_username").value =  data.user_username;
+          document.getElementById("modal_edit_password").value =  data.user_password;
+          document.getElementById("modal_edit_data_ttd").src="<?= base_url('assets/foto/ttd/'); ?>"+data.user_ttd;
+          
+      }
+    });
+  }
+  else if (jenis == 'aset'){
+    $('#modal_detail_aset').modal('show');
+    $.ajax({
+      url: "<?php echo base_url(); ?>auth/get_aset_by_id",
+      data: {
+        id : id
+      },
+      type: "POST",
+      dataType: "json",
+      success: function(data) {
+          // console.log(data);
+          set_jabatan_edit(data.user_id_level);
+          document.getElementById("modal_edit_id_user").value = data.user_id;
+          document.getElementById("modal_edit_nama").value =  data.user_nama;
+          document.getElementById("modal_edit_username").value =  data.user_username;
+          document.getElementById("modal_edit_password").value =  data.user_password;
+          document.getElementById("modal_edit_data_ttd").src="<?= base_url('assets/foto/ttd/'); ?>"+data.user_ttd;
+          
+      }
+    });
+  } 
+}
+
+
+
 </script>
+
+
+
+<div class="modal fade" id="modal_detail_guru" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Detail Data Guru</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+      
+      <div class="card mb-2" style="max-width: 540px; border:none;">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src="" id="modal_foto_guru" class="card-img" alt="...">
+          </div>
+          <div class="col-md-8">
+
+            <div class="card-body">
+            <div class="form-group row">
+              <label for="colFormLabel" class="col-sm-5 col-form-label">Username</label>
+              <div class="col-sm-7">
+                <input type="text" class="form-control" id="modal_username_guru" placeholder="col-form-label" readonly>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="colFormLabel" class="col-sm-5 col-form-label">Password</label>
+              <div class="col-sm-7">
+                <input type="text" class="form-control" id="modal_password_guru" placeholder="col-form-label" readonly>
+              </div>
+            </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="row no-gutters">
+          <div class="col-md-4">
+             <h2 class="card-title" id="modal_nip_guru"></h2>
+          </div>
+          
+        </div>
+
+      </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

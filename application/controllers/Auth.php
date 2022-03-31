@@ -7,6 +7,13 @@ class Auth extends CI_Controller {
         parent::__construct();
     }
 
+    public function get_guru_by_id(){
+        $v_data = $this->M_read->get_guru_by_id(decrypt_url($this->input->post('id')))->row_array();
+        echo json_encode($v_data);
+    }
+
+
+
     public function index (){
         if ($this->session->userdata('level_user')) {
             if ($this->session->userdata('level_user') == 1) {

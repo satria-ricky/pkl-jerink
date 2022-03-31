@@ -266,7 +266,7 @@ public function index(){
                         <td style="text-align: center;">'.$row->jk_guru.'</td>
                         <td>'.$row->telp_guru.'</td>
                         <td>
-                            <a href="javascript:;" class="badge badge-info">Detail</a>
+                            <a href="javascript:;" class="badge badge-info" onclick="button_detail(\''."guru".'\', \''.encrypt_url($row->id_guru).'\')">Detail</a>
                             <a href="'.base_url().'admin/edit_guru/'.encrypt_url($row->id_guru).'" class="badge badge-primary">Edit</a>
                             <a href="javascript:;" class="badge badge-danger" onclick="button_hapus(\''."guru".'\', \''.encrypt_url($row->id_guru).'\')">Hapus</a >
                         </td>
@@ -466,10 +466,13 @@ public function index(){
 
     public function hapus_guru($id){
         $v_id = decrypt_url($id);
-        $this->M_delete->delete_keluar($v_id);
+        $this->M_delete->delete_informasi_guru($v_id);
+        $this->M_delete->delete_akun_guru($v_id);
         $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
-        redirect('admin/keluar');
+        redirect('admin/daftar_guru');
     }  
+
+
 
 
 }   

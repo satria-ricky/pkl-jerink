@@ -39,7 +39,7 @@
 
             </div><!-- end col-md-8 -->
 
-            <div class="col-md-2 ">
+            <div class="col-md-2 mb-4">
               <div class="card" style="width: 150px; height:150px; border: none;">
             <img  src="<?= base_url('assets/penyimpanan_foto/guru/').$data['foto_guru'] ?> " alt="...">
             </div>
@@ -51,7 +51,7 @@
 
 
         
-        <div class="card shadow">
+        <div class="card shadow mb-2">
         <h5 class="mt-2 ml-2"> <b><u>Informasi Detail</u></b></h5>
           <div class="row mb-2 mt-4 ml-2 mr-2">
 
