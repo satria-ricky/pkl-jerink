@@ -13,10 +13,10 @@
           <h5 class="mt-2 ml-2"> <b><u>Informasi Akun</u></b></h5>
           <div class="row mt-4 ml-2 mr-2">
 
-            <div class="col-lg-8">
+            <div class="col-lg-9">
             
               <form class="user" id="form_edit_guru" method="POST" enctype="multipart/form-data">
-                
+                <input type="hidden" value="<?= $data['id_guru']; ?>" name="user_id" >
                 <div class="form-group">
                   <label class="control-label col-md-3" 
                     for="nama_barang">*Username : </label>
@@ -39,8 +39,8 @@
 
             </div><!-- end col-md-8 -->
 
-            <div class="col-md-4 ">
-              <div class="card" style="width: 150px; height:150px;">
+            <div class="col-md-2 ">
+              <div class="card" style="width: 150px; height:150px; border: none;">
             <img  src="<?= base_url('assets/penyimpanan_foto/guru/').$data['foto_guru'] ?> " alt="...">
             </div>
             </div>

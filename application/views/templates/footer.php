@@ -213,4 +213,46 @@ $('#button_tambah_guru').click(function(e) {
         }
     });
 
+
+    $('#button_edit_guru').click(function(e) {
+
+      if ($('#username').val() == '' || $('#password').val() == '' || $('#nip_guru').val() == '' || $('#nama_guru').val() == '' || $('#tgl_lahir').val() == '' || $('#nomer_telp').val() == '')
+      {
+         swal({
+            title: 'Opppss!',
+            text: 'Harap isi semua form!',
+            icon: 'warning',
+            buttons: {                  
+                confirm: {
+                    className : 'btn btn-focus'
+                }
+            },
+        });
+      }
+      else {
+        swal({
+          title: 'Yakin diubah?',
+          icon: 'warning',
+          buttons:{
+            confirm: {
+              text : 'Ubah',
+              className : 'btn btn-success'
+            },
+            cancel: {
+              text : 'Tidak',
+              visible: true,
+              className: 'btn btn-focus'
+            }
+          }
+        }).then((edit) => {
+          if (edit) {
+            document.getElementById("form_edit_guru").submit();
+          } else {
+            swal.close();
+          }
+        });
+      }
+  });
+
+
 </script>

@@ -8,6 +8,14 @@ class Auth extends CI_Controller {
     }
 
     public function index (){
+        if ($this->session->userdata('level_user')) {
+            if ($this->session->userdata('level_user') == 1) {
+               redirect('admin');
+            }elseif ($this->session->userdata('level_user') == 2){
+                redirect('guru');
+            }
+        }
+
         $this->load->view('templates/header_login');    
         $this->load->view('login/login');
         $this->load->view('templates/footer_login');
