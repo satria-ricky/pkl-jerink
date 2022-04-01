@@ -1,6 +1,6 @@
 
  <!-- Footer -->
-      <footer class="sticky-footer bg-white" style="">
+      <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
             <span>Copyright &copy; <b>Izki Ardivilaska</b></span>
@@ -279,10 +279,12 @@ function button_detail(jenis,id) {
       success: function(data) {
           // console.log(data);
           $('#modal_nip_guru').html('NIP.'+data.nip_guru);
-          // document.getElementById("modal_nama_guru").value =  data.nama_guru;
-          // document.getElementById("modal_tgl_guru").value =  data.tgl_guru;
+          document.getElementById("modal_nama_guru").value =  data.nama_guru;
+          document.getElementById("modal_tgl_guru").value =  data.tgl_guru;
           document.getElementById("modal_password_guru").value =  data.password;
           document.getElementById("modal_username_guru").value =  data.username;
+          document.getElementById("modal_jk_guru").value =  data.jk_guru;
+          document.getElementById("modal_telp_guru").value =  data.telp_guru;
           document.getElementById("modal_foto_guru").src="<?= base_url('assets/penyimpanan_foto/'); ?>"+data.foto_guru;
           
       }
@@ -358,18 +360,18 @@ function button_detail(jenis,id) {
           <div class="col-md-8">
 
             <div class="card-body">
-            <div class="form-group row">
-              <label for="colFormLabel" class="col-sm-5 col-form-label">Username</label>
-              <div class="col-sm-7">
-                <input type="text" class="form-control" id="modal_username_guru" placeholder="col-form-label" readonly>
+              <div class="form-group row">
+                <label for="colFormLabel" class="col-sm-5 col-form-label">Username</label>
+                <div class="col-sm-7">
+                  <input type="text" class="form-control" id="modal_username_guru" placeholder="col-form-label" readonly>
+                </div>
               </div>
-            </div>
-            <div class="form-group row">
-              <label for="colFormLabel" class="col-sm-5 col-form-label">Password</label>
-              <div class="col-sm-7">
-                <input type="text" class="form-control" id="modal_password_guru" placeholder="col-form-label" readonly>
+              <div class="form-group row">
+                <label for="colFormLabel" class="col-sm-5 col-form-label">Password</label>
+                <div class="col-sm-7">
+                  <input type="text" class="form-control" id="modal_password_guru" placeholder="col-form-label" readonly>
+                </div>
               </div>
-            </div>
             </div>
 
           </div>
@@ -378,9 +380,31 @@ function button_detail(jenis,id) {
           <div class="col-md-4">
              <h2 class="card-title" id="modal_nip_guru"></h2>
           </div>
-          
         </div>
-
+        <div class="form-group row">
+          <label for="colFormLabel" class="col-sm-4 col-form-label">Nama Lengkap</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="modal_nama_guru" placeholder="col-form-label" readonly>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="colFormLabel" class="col-sm-4 col-form-label">TTL</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="modal_tgl_guru" placeholder="col-form-label" readonly>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="colFormLabel" class="col-sm-4 col-form-label">Jenis Kelamin</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="modal_jk_guru" placeholder="col-form-label" readonly>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="colFormLabel" class="col-sm-4 col-form-label">Kontak</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="modal_telp_guru" placeholder="col-form-label" readonly>
+          </div>
+        </div>
       </div>
 
 
