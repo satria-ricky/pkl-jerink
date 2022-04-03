@@ -285,7 +285,7 @@ function button_detail(jenis,id) {
           document.getElementById("modal_username_guru").value =  data.username;
           document.getElementById("modal_jk_guru").value =  data.jk_guru;
           document.getElementById("modal_telp_guru").value =  data.telp_guru;
-          document.getElementById("modal_foto_guru").src="<?= base_url('assets/penyimpanan_foto/'); ?>"+data.foto_guru;
+          document.getElementById("modal_foto_guru").src="<?= base_url('assets/penyimpanan_foto/guru/'); ?>"+data.foto_guru;
           
       }
     });
@@ -301,12 +301,13 @@ function button_detail(jenis,id) {
       dataType: "json",
       success: function(data) {
           // console.log(data);
-          set_jabatan_edit(data.user_id_level);
-          document.getElementById("modal_edit_id_user").value = data.user_id;
-          document.getElementById("modal_edit_nama").value =  data.user_nama;
-          document.getElementById("modal_edit_username").value =  data.user_username;
-          document.getElementById("modal_edit_password").value =  data.user_password;
-          document.getElementById("modal_edit_data_ttd").src="<?= base_url('assets/foto/ttd/'); ?>"+data.user_ttd;
+          $('#modal_nip_guru').html('NIP.'+data.no_absen);
+          document.getElementById("modal_nama_siswa").value =  data.nama_siswa;
+          document.getElementById("modal_tgl_siswa").value =  data.tgl_siswa;
+          document.getElementById("modal_jk_siswa").value =  data.jk_siswa;
+          document.getElementById("modal_telp_siswa").value =  data.telp_siswa;
+          document.getElementById("modal_guru_siswa").value =  data.nama_guru;
+          document.getElementById("modal_foto_siswa").src="<?= base_url('assets/penyimpanan_foto/siswa/'); ?>"+data.foto;
           
       }
     });
@@ -403,6 +404,71 @@ function button_detail(jenis,id) {
           <label for="colFormLabel" class="col-sm-4 col-form-label">Kontak</label>
           <div class="col-sm-8">
             <input type="text" class="form-control" id="modal_telp_guru" placeholder="col-form-label" readonly>
+          </div>
+        </div>
+      </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modal_detail_siswa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Detail Data Siswa</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+      
+      <div class="card mb-2" style="max-width: 540px; border:none;">
+        <div class="d-flex justify-content-center">
+          <div >
+            <img src="" id="modal_foto_siswa" class="card-img" alt="..." style="width: 10rem;">
+          </div>
+        </div>
+        <div class="row no-gutters">
+          <div class="col-md-4">
+             <h2 class="card-title" id="modal_nip_siswa"></h2>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="colFormLabel" class="col-sm-4 col-form-label">Nama Lengkap</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="modal_nama_siswa" placeholder="col-form-label" readonly>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="colFormLabel" class="col-sm-4 col-form-label">TTL</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="modal_tgl_siswa" placeholder="col-form-label" readonly>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="colFormLabel" class="col-sm-4 col-form-label">Jenis Kelamin</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="modal_jk_siswa" placeholder="col-form-label" readonly>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="colFormLabel" class="col-sm-4 col-form-label">Kontak</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="modal_telp_siswa" placeholder="col-form-label" readonly>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="colFormLabel" class="col-sm-4 col-form-label">Guru Pembimbing</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="modal_guru_siswa" placeholder="col-form-label" readonly>
           </div>
         </div>
       </div>

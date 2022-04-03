@@ -473,6 +473,145 @@ public function index(){
     }  
 
 
+//SISWA
+    public function daftar_siswa(){
+        $v_data['is_aktif'] = 'siswa';
+        $v_data['judul_daftar'] = 'Daftar Siswa';
+
+        $list_data = $this->M_read->get_siswa();
+        $v_data['isi_konten'] = '';
+
+        $v_data['isi_konten'] .= '
+            
+            <table id="example" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                <tr>
+                    <th style="text-align: center;">No Absen</th>
+                    <th style="text-align: center;">Nama Siswa</th>
+                    <th style="text-align: center;">Tanggal Lahir</th>
+                    <th style="text-align: center;">Jenis Kelamin</th>
+                    <th style="text-align: center;">No. Telpon</th>
+                    <th style="text-align: center;">Aksi</th>
+                </tr>
+                </thead>
+            <tbody>  
+        ';
+
+        if($list_data->num_rows() > 0)
+        {
+            foreach($list_data->result() as $row)
+            {
+                $v_data['isi_konten'] .= '
+                    <tr>
+                        <td>'.$row->no_absen.'</td>
+                        <td>'.$row->nama_siswa.'</td>
+                        <td>'.$row->tgl_siswa.'</td>
+                        <td style="text-align: center;">'.$row->jk_siswa.'</td>
+                        <td>'.$row->telp_siswa.'</td>
+                        <td>
+                            <a href="javascript:;" class="badge badge-info" onclick="button_detail(\''."siswa".'\', \''.encrypt_url($row->id_siswa).'\')">Detail</a>
+                            <a href="'.base_url().'admin/edit_siswa/'.encrypt_url($row->id_siswa).'" class="badge badge-primary">Edit</a>
+                            <a href="javascript:;" class="badge badge-danger" onclick="button_hapus(\''."siswa".'\', \''.encrypt_url($row->id_siswa).'\')">Hapus</a >
+                        </td>
+                    </tr>
+
+                '; 
+            }   
+        }
+
+    $v_data['isi_konten']  .= ' 
+            </tbody>
+        </table>
+    ';
+
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar',$v_data);
+        $this->load->view('templates/topbar');
+        $this->load->view('daftar/daftar',$v_data);
+        $this->load->view('templates/footer');  
+    }
+
+
+    public function tambah_siswa(){
+
+        $v_data['is_aktif'] = 'siswa';
+        $v_data['judul_daftar'] = 'Tambah Data Siswa';
+
+        $this->form_validation->set_rules('username', 'Username', 'required|trim|callback_validasi_username', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+
+        $this->form_validation->set_rules('nip_guru', 'Nip_guru', 'required|trim|callback_validasi_nip', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+
+        if($this->form_validation->run() == false){
+            $this->load->view('templates/header');
+            $this->load->view('templates/sidebar',$v_data);
+            $this->load->view('templates/topbar');
+            $this->load->view('tambah/tambah_siswa',$v_data);
+            $this->load->view('templates/footer');    
+        }
+        else{
+
+            $v_username = $this->input->post('username');
+            $v_password = $this->input->post('password');
+            $v_nip_guru = $this->input->post('nip_guru');
+            $v_nama_guru = $this->input->post('nama_guru');
+            $v_jenis_kelamin = $this->input->post('jenis_kelamin');
+            $v_tgl_lahir = $this->input->post('tgl_lahir');
+            $v_nomer_telp = $this->input->post('nomer_telp');
+            $upload_foto = $_FILES['foto_guru']['name'];
+
+                if($upload_foto){
+                    
+                    $config['allowed_types'] = 'gif|jpg|png|jpeg';
+                    $config['max_size']     = '5000';
+                    $config['upload_path'] = './assets/penyimpanan_foto/guru/';
+                        
+                    $this->load->library('upload', $config);
+    
+                    if ($this->upload->do_upload('foto_guru')){
+                        $v_nama_foto = $this->upload->data('file_name');
+                        $v_data_informasi = [
+                            'nip_guru' => $v_nip_guru,
+                            'nama_guru' => $v_nama_guru,
+                            'tgl_guru' => $v_tgl_lahir,
+                            'jk_guru' => $v_jenis_kelamin,
+                            'telp_guru' => $v_nomer_telp,
+                            'foto_guru' => $v_nama_foto
+                        ];
+                    }
+                    else
+                    {
+                        echo $this->upload->display_errors();
+                    }
+    
+                }else{
+                    $v_data_informasi = [
+                        'nip_guru' => $v_nip_guru,
+                        'nama_guru' => $v_nama_guru,
+                        'tgl_guru' => $v_tgl_lahir,
+                        'jk_guru' => $v_jenis_kelamin,
+                        'telp_guru' => $v_nomer_telp
+                    ];
+                }
+
+                $v_id_akun = $this->M_create->create_guru($v_data_informasi);
+                $v_data_akun_guru = [
+                    'id_user' => $v_id_akun['id_guru'],
+                    'username' => $v_username,
+                    'password' => $v_password,
+                    'level_user' => 2
+                ];
+
+                $this->M_create->create_akun_guru($v_data_akun_guru);
+                $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
+                redirect("admin/daftar_guru");       
+
+        }
+    }
+
 
 
 }   

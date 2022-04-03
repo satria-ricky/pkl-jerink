@@ -12,6 +12,10 @@ class Auth extends CI_Controller {
         echo json_encode($v_data);
     }
 
+    public function get_siswa_by_id(){
+        $v_data = $this->M_read->get_siswa_by_id(decrypt_url($this->input->post('id')))->row_array();
+        echo json_encode($v_data);
+    }
 
 
     public function index (){
