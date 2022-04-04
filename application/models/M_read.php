@@ -48,6 +48,18 @@ class M_read extends CI_model {
        return $query=$this->db->query($sql,$id);    
      }
 
+
+     public function cek_nis($v_nis,$id){
+      $sql='SELECT * FROM tb_siswa WHERE nis_siswa=? AND id_siswa!=?';
+      return $query=$this->db->query($sql,array($v_nis,$id))->row_array();
+    }
+  
+    public function cek_nis_aja($v_nis){
+      $sql='SELECT * FROM tb_siswa WHERE nis_siswa=?';
+      return $query=$this->db->query($sql,$v_nis)->row_array();
+    }
+
+
     //ASET
 
     public function get_total_aset(){

@@ -19,10 +19,10 @@
                     for="nama_barang">*NIS : </label>
                   <div class="col-md-8">
                     <input type="number" class="form-control reset" autocomplete="off" id="nis_siswa"  
-                      name="nip_guru" placeholder="NIS siswa ..." required value="<?= set_value('nis_siswa'); ?>">
+                      name="nis_siswa" placeholder="NIS siswa ..." required value="<?= set_value('nis_siswa'); ?>">
                   </div>
                 </div>
-
+  
                 <div class="form-group">
                   <label class="control-label col-md-4" 
                     for="harga_barang">*Nama siswa : </label>
@@ -37,11 +37,11 @@
                     for="harga_barang">*Jenis Kelamin : </label>
                   <div class="col-md-8">
                    <div class="custom-control custom-radio">
-                      <input type="radio" id="customRadio1" name="jenis_kelamin" value="L" class="custom-control-input">
+                      <input type="radio" id="customRadio1" name="jenis_kelamin" value="L"  <?= set_value('jenis_kelamin') == 'L'? "checked" : ""; ?> class="custom-control-input">
                       <label class="custom-control-label" for="customRadio1">Laki - laki</label>
                     </div>
                     <div class="custom-control custom-radio">
-                      <input type="radio" id="customRadio2" name="jenis_kelamin" value="P" class="custom-control-input">
+                      <input type="radio" id="customRadio2" name="jenis_kelamin" value="P" <?= set_value('jenis_kelamin') == 'P'? "checked" : ""; ?> class="custom-control-input">
                       <label class="custom-control-label" for="customRadio2">Perempuan</label>
                     </div>
                   </div>
@@ -73,7 +73,6 @@
                 </div>
 
                 <?= $data_guru ?>
-
 
                     <hr>
                     <button type="button" class="btn btn-primary btn-icon-split" id="button_tambah_siswa">

@@ -73,11 +73,11 @@
                     for="harga_barang">*Jenis Kelamin : </label>
                   <div class="col-md-8">
                    <div class="custom-control custom-radio">
-                      <input type="radio" id="customRadio1" name="jenis_kelamin" value="L" class="custom-control-input">
+                      <input type="radio" id="customRadio1" name="jenis_kelamin" value="L" value="P" <?= set_value('jenis_kelamin') == 'L'? "checked" : ""; ?> class="custom-control-input">
                       <label class="custom-control-label" for="customRadio1">Laki - laki</label>
                     </div>
                     <div class="custom-control custom-radio">
-                      <input type="radio" id="customRadio2" name="jenis_kelamin" value="P" class="custom-control-input">
+                      <input type="radio" id="customRadio2" name="jenis_kelamin" value="P" value="P" <?= set_value('jenis_kelamin') == 'P'? "checked" : ""; ?> class="custom-control-input">
                       <label class="custom-control-label" for="customRadio2">Perempuan</label>
                     </div>
                   </div>

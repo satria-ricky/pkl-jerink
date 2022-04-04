@@ -51,6 +51,27 @@ function validasi_nip()
     }
 }
 
+
+function validasi_nis()
+{
+    $v_nis = $this->input->post('nis_siswa');
+    $v_id = $this->input->post('user_id');
+
+    if (!$v_id) {
+        if ($this->M_read->cek_nis_aja($v_nis)) {
+            $this->session->set_flashdata('error', 'NIS telah tersedia!');
+            return FALSE;   
+        }
+        return TRUE;
+    }else {
+        if ($this->M_read->cek_nis($v_nis,$v_id)) {
+            $this->session->set_flashdata('error', 'NIS telah tersedia!');
+            return FALSE;   
+        }
+        return TRUE;    
+    }
+}
+
 //BERANDA
 public function index(){
 
@@ -486,7 +507,8 @@ public function index(){
             <table id="example" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                 <tr>
-                    <th style="text-align: center;">No Absen</th>
+                    <th style="text-align: center;">NO</th>
+                    <th style="text-align: center;">NIS</th>
                     <th style="text-align: center;">Nama Siswa</th>
                     <th style="text-align: center;">Tanggal Lahir</th>
                     <th style="text-align: center;">Jenis Kelamin</th>
@@ -497,13 +519,15 @@ public function index(){
             <tbody>  
         ';
 
+        $index =1;
         if($list_data->num_rows() > 0)
         {
             foreach($list_data->result() as $row)
             {
                 $v_data['isi_konten'] .= '
                     <tr>
-                        <td>'.$row->no_absen.'</td>
+                        <td>'.$index.'</td>
+                        <td>'.$row->nis_siswa.'</td>
                         <td>'.$row->nama_siswa.'</td>
                         <td>'.$row->tgl_siswa.'</td>
                         <td style="text-align: center;">'.$row->jk_siswa.'</td>
@@ -516,6 +540,7 @@ public function index(){
                     </tr>
 
                 '; 
+                $index++;
             }   
         }
 
@@ -559,14 +584,7 @@ public function index(){
             </div>
         ';
 
-
-
-
-        $this->form_validation->set_rules('username', 'Username', 'required|trim|callback_validasi_username', [
-            'required' => 'Kolom harus diisi!',
-        ]);
-
-        $this->form_validation->set_rules('nip_guru', 'Nip_guru', 'required|trim|callback_validasi_nip', [
+        $this->form_validation->set_rules('nis_siswa', 'Nis_siswa', 'required|trim|callback_validasi_nis', [
             'required' => 'Kolom harus diisi!',
         ]);
 
@@ -579,32 +597,32 @@ public function index(){
         }
         else{
 
-            $v_username = $this->input->post('username');
-            $v_password = $this->input->post('password');
-            $v_nip_guru = $this->input->post('nip_guru');
-            $v_nama_guru = $this->input->post('nama_guru');
+            $v_nis_siswa = $this->input->post('nis_siswa');
+            $v_nama_siswa = $this->input->post('nama_siswa');
             $v_jenis_kelamin = $this->input->post('jenis_kelamin');
             $v_tgl_lahir = $this->input->post('tgl_lahir');
             $v_nomer_telp = $this->input->post('nomer_telp');
-            $upload_foto = $_FILES['foto_guru']['name'];
+            $v_guru_pendamping = $this->input->post('guru_pendamping');
+            $upload_foto = $_FILES['foto_siswa']['name'];
 
                 if($upload_foto){
                     
                     $config['allowed_types'] = 'gif|jpg|png|jpeg';
                     $config['max_size']     = '5000';
-                    $config['upload_path'] = './assets/penyimpanan_foto/guru/';
+                    $config['upload_path'] = './assets/penyimpanan_foto/siswa/';
                         
                     $this->load->library('upload', $config);
     
-                    if ($this->upload->do_upload('foto_guru')){
+                    if ($this->upload->do_upload('foto_siswa')){
                         $v_nama_foto = $this->upload->data('file_name');
                         $v_data_informasi = [
-                            'nip_guru' => $v_nip_guru,
-                            'nama_guru' => $v_nama_guru,
-                            'tgl_guru' => $v_tgl_lahir,
-                            'jk_guru' => $v_jenis_kelamin,
-                            'telp_guru' => $v_nomer_telp,
-                            'foto_guru' => $v_nama_foto
+                            'nis_siswa' => $v_nis_siswa,
+                            'nama_siswa' => $v_nama_siswa,
+                            'tgl_siswa' => $v_tgl_lahir,
+                            'jk_siswa' => $v_jenis_kelamin,
+                            'telp_siswa' => $v_nomer_telp,
+                            'id_guru_siswa' => $v_guru_pendamping,
+                            'foto' => $v_nama_foto
                         ];
                     }
                     else
@@ -614,29 +632,117 @@ public function index(){
     
                 }else{
                     $v_data_informasi = [
-                        'nip_guru' => $v_nip_guru,
-                        'nama_guru' => $v_nama_guru,
-                        'tgl_guru' => $v_tgl_lahir,
-                        'jk_guru' => $v_jenis_kelamin,
-                        'telp_guru' => $v_nomer_telp
+                        'nis_siswa' => $v_nis_siswa,
+                        'nama_siswa' => $v_nama_siswa,
+                        'tgl_siswa' => $v_tgl_lahir,
+                        'jk_siswa' => $v_jenis_kelamin,
+                        'telp_siswa' => $v_nomer_telp,
+                        'id_guru_siswa' => $v_guru_pendamping
                     ];
                 }
 
-                $v_id_akun = $this->M_create->create_guru($v_data_informasi);
-                $v_data_akun_guru = [
-                    'id_user' => $v_id_akun['id_guru'],
-                    'username' => $v_username,
-                    'password' => $v_password,
-                    'level_user' => 2
-                ];
-
-                $this->M_create->create_akun_guru($v_data_akun_guru);
+                $this->M_create->create_siswa($v_data_informasi);
                 $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
-                redirect("admin/daftar_guru");       
+                redirect("admin/daftar_siswa");       
 
         }
     }
 
+
+
+    public function edit_siswa($id){
+
+        $v_id = decrypt_url($id);
+        $v_data['is_aktif'] = 'siswa';
+        $v_data['judul_daftar'] = 'Edit Data Siswa';
+
+        $list_guru = $this->M_read->get_guru();
+        
+        $data_guru = '';
+        if($list_guru->num_rows() > 0)
+        {
+            foreach($list_guru->result() as $row)
+            {
+                $data_guru .= '
+                    <option value="'.$row->id_guru.'">'.$row->nama_guru.'</option>
+                '; 
+            }  
+        }
+        $v_data['data_guru'] = '
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Pendamping</label>
+                </div>
+                <select class="custom-select" id="guru_pendamping" name="guru_pendamping">
+                <option value=""> -- Pilih Guru -- </option>
+                '.$data_guru.'
+                </select>
+            </div>
+        ';
+
+        $this->form_validation->set_rules('nis_siswa', 'Nis_siswa', 'required|trim|callback_validasi_nis', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+
+        if($this->form_validation->run() == false){
+            $this->load->view('templates/header');
+            $this->load->view('templates/sidebar',$v_data);
+            $this->load->view('templates/topbar');
+            $this->load->view('tambah/tambah_siswa',$v_data);
+            $this->load->view('templates/footer');    
+        }
+        else{
+
+            $v_nis_siswa = $this->input->post('nis_siswa');
+            $v_nama_siswa = $this->input->post('nama_siswa');
+            $v_jenis_kelamin = $this->input->post('jenis_kelamin');
+            $v_tgl_lahir = $this->input->post('tgl_lahir');
+            $v_nomer_telp = $this->input->post('nomer_telp');
+            $v_guru_pendamping = $this->input->post('guru_pendamping');
+            $upload_foto = $_FILES['foto_siswa']['name'];
+
+                if($upload_foto){
+                    
+                    $config['allowed_types'] = 'gif|jpg|png|jpeg';
+                    $config['max_size']     = '5000';
+                    $config['upload_path'] = './assets/penyimpanan_foto/siswa/';
+                        
+                    $this->load->library('upload', $config);
+    
+                    if ($this->upload->do_upload('foto_siswa')){
+                        $v_nama_foto = $this->upload->data('file_name');
+                        $v_data_informasi = [
+                            'nis_siswa' => $v_nis_siswa,
+                            'nama_siswa' => $v_nama_siswa,
+                            'tgl_siswa' => $v_tgl_lahir,
+                            'jk_siswa' => $v_jenis_kelamin,
+                            'telp_siswa' => $v_nomer_telp,
+                            'id_guru_siswa' => $v_guru_pendamping,
+                            'foto' => $v_nama_foto
+                        ];
+                    }
+                    else
+                    {
+                        echo $this->upload->display_errors();
+                    }
+    
+                }else{
+                    $v_data_informasi = [
+                        'nis_siswa' => $v_nis_siswa,
+                        'nama_siswa' => $v_nama_siswa,
+                        'tgl_siswa' => $v_tgl_lahir,
+                        'jk_siswa' => $v_jenis_kelamin,
+                        'telp_siswa' => $v_nomer_telp,
+                        'id_guru_siswa' => $v_guru_pendamping
+                    ];
+                }
+
+                $this->M_create->create_siswa($v_data_informasi);
+                $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
+                redirect("admin/daftar_siswa");       
+
+        }
+    }
 
 
     public function hapus_siswa($id){
@@ -645,6 +751,8 @@ public function index(){
         $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
         redirect('admin/daftar_siswa');
     } 
+
+
 
 
 

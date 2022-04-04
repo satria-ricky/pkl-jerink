@@ -16,7 +16,11 @@ class M_create extends CI_model {
 
 
 	//SISWA
-
+	public function create_siswa($v_data)
+	{
+	  $this->db->insert('tb_siswa', $v_data);
+	  return $this->db->affected_rows();
+	}
 
 	//ASET
 

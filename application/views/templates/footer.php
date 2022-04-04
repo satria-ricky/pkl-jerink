@@ -30,7 +30,7 @@
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <!-- <div class="modal-body">Yakin ingin keluar ? </div> -->
+      
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
           <a class="btn btn-danger" href="<?= base_url('auth/logout'); ?>">Logout</a>
@@ -184,8 +184,23 @@ $('#button_tambah_guru').click(function(e) {
         }
     });
 
+
     $('#button_tambah_siswa').click(function(e) {
 
+      var radios = document.getElementsByName('jenis_kelamin');
+      var jk ='';
+      for (var i = 0, length = radios.length; i < length; i++) {
+        if (radios[i].checked) {
+          // do whatever you want with the checked radio
+          // alert(radios[i].value);
+          // console.log(radios[i].value);
+          jk = radios[i].value;
+          // only one radio can be logically checked, don't check the rest
+          break;
+        }
+      }
+
+      
       if ( $('#nis_siswa').val() == '' || $('#nama_siswa').val() == '' || $('#tgl_lahir').val() == '' || $('#nomer_telp').val() == '' || $('#foto_guru').val() == '' || jk == '' || $('#guru_pendamping').val() == '')
       {
          swal({
