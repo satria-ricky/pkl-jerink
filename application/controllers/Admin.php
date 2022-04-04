@@ -487,6 +487,11 @@ public function index(){
 
     public function hapus_guru($id){
         $v_id = decrypt_url($id);
+        
+        $hapus_foto = $this->M_read->get_guru_by_id($v_id)->row_array();
+        
+        unlink(FCPATH . 'assets/penyimpanan_foto/guru/'. $hapus_foto['foto_guru']);
+
         $this->M_delete->delete_informasi_guru($v_id);
         $this->M_delete->delete_akun_guru($v_id);
         $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
@@ -656,6 +661,8 @@ public function index(){
         $v_data['is_aktif'] = 'siswa';
         $v_data['judul_daftar'] = 'Edit Data Siswa';
         
+        $v_data['data'] = $this->M_read->get_siswa_by_id($v_id)->row_array();
+
         $list_guru = $this->M_read->get_guru();
 
         $data_guru = '';
@@ -663,9 +670,16 @@ public function index(){
         {
             foreach($list_guru->result() as $row)
             {
-                $data_guru .= '
-                    <option value="'.$row->id_guru.'">'.$row->nama_guru.'</option>
-                '; 
+                if($v_data['data']['id_guru_siswa'] == $row->id_guru){
+                    $data_guru .= '
+                        <option selected value="'.$row->id_guru.'">'.$row->nama_guru.'</option>
+                    '; 
+                }else{
+                    $data_guru .= '
+                        <option value="'.$row->id_guru.'">'.$row->nama_guru.'</option>
+                    ';
+                }
+                 
             }  
         }
         $v_data['data_guru'] = '
@@ -688,7 +702,7 @@ public function index(){
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar',$v_data);
             $this->load->view('templates/topbar');
-            $this->load->view('tambah/tambah_siswa',$v_data);
+            $this->load->view('edit/edit_siswa',$v_data);
             $this->load->view('templates/footer');    
         }
         else{
@@ -711,6 +725,9 @@ public function index(){
     
                     if ($this->upload->do_upload('foto_siswa')){
                         $v_nama_foto = $this->upload->data('file_name');
+                        $v_foto_lama = $v_data['data']['foto'];
+                        unlink(FCPATH . 'assets/penyimpanan_foto/siswa/' . $v_foto_lama);
+
                         $v_data_informasi = [
                             'nis_siswa' => $v_nis_siswa,
                             'nama_siswa' => $v_nama_siswa,
@@ -737,16 +754,20 @@ public function index(){
                     ];
                 }
 
-                $this->M_create->create_siswa($v_data_informasi);
-                $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
-                redirect("admin/daftar_siswa");       
-
+                $this->M_update->edit_siswa($v_data_informasi,$v_id);
+                $this->session->set_flashdata('pesan', 'Data berhasil diubah!');
+                redirect("admin/daftar_siswa"); 
         }
     }
 
 
     public function hapus_siswa($id){
         $v_id = decrypt_url($id);
+        
+        $hapus_foto = $this->M_read->get_siswa_by_id($v_id)->row_array();
+        
+        unlink(FCPATH . 'assets/penyimpanan_foto/siswa/'. $hapus_foto['foto']);
+
         $this->M_delete->delete_siswa($v_id);
         $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
         redirect('admin/daftar_siswa');

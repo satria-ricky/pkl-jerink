@@ -41,7 +41,7 @@
 
             <div class="col-md-2 mb-4">
               <div class="card" style="width: 150px; height:150px; border: none;">
-            <img  src="<?= base_url('assets/penyimpanan_foto/guru/').$data['foto_guru'] ?> " alt="...">
+              <img  src="<?= base_url('assets/penyimpanan_foto/guru/').$data['foto_guru'] ?> " alt="...">
             </div>
             </div>
 
@@ -125,7 +125,7 @@
                 
               </div>
                 <br>
-                <b><p>Note : Tanda bintang (*) harapa diisi! </p></b>
+                <b><p>Note : Tanda bintang (*) harap diisi! </p></b>
                 
             </div>
           </div>

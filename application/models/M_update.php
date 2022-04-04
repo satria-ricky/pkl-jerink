@@ -16,4 +16,10 @@ class M_update extends CI_model {
   }   
 
     
+  //SISWA
+  public function edit_siswa($data,$id){     
+    $this->db->update('tb_siswa', $data, array('id_siswa' => $id));
+  } 
+
+
 }
