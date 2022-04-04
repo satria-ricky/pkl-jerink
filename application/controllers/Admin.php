@@ -655,9 +655,9 @@ public function index(){
         $v_id = decrypt_url($id);
         $v_data['is_aktif'] = 'siswa';
         $v_data['judul_daftar'] = 'Edit Data Siswa';
-
-        $list_guru = $this->M_read->get_guru();
         
+        $list_guru = $this->M_read->get_guru();
+
         $data_guru = '';
         if($list_guru->num_rows() > 0)
         {
