@@ -533,9 +533,34 @@ public function index(){
 
 
     public function tambah_siswa(){
-
         $v_data['is_aktif'] = 'siswa';
         $v_data['judul_daftar'] = 'Tambah Data Siswa';
+
+        $list_guru = $this->M_read->get_guru();
+        $data_guru = '';
+        if($list_guru->num_rows() > 0)
+        {
+            foreach($list_guru->result() as $row)
+            {
+                $data_guru .= '
+                    <option value="'.$row->id_guru.'">'.$row->nama_guru.'</option>
+                '; 
+            }  
+        }
+        $v_data['data_guru'] = '
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Pendamping</label>
+                </div>
+                <select class="custom-select" id="guru_pendamping" name="guru_pendamping">
+                <option value=""> -- Pilih Guru -- </option>
+                '.$data_guru.'
+                </select>
+            </div>
+        ';
+
+
+
 
         $this->form_validation->set_rules('username', 'Username', 'required|trim|callback_validasi_username', [
             'required' => 'Kolom harus diisi!',
@@ -611,6 +636,15 @@ public function index(){
 
         }
     }
+
+
+
+    public function hapus_siswa($id){
+        $v_id = decrypt_url($id);
+        $this->M_delete->delete_siswa($v_id);
+        $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
+        redirect('admin/daftar_siswa');
+    } 
 
 
 

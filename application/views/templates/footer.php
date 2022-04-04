@@ -128,7 +128,7 @@ $('#button_edit_profile').click(function(e) {
         }
     });
 
-
+//TAMBAH
 $('#button_tambah_guru').click(function(e) {
 
   var radios = document.getElementsByName('jenis_kelamin');
@@ -184,7 +184,48 @@ $('#button_tambah_guru').click(function(e) {
         }
     });
 
+    $('#button_tambah_siswa').click(function(e) {
 
+      if ( $('#nis_siswa').val() == '' || $('#nama_siswa').val() == '' || $('#tgl_lahir').val() == '' || $('#nomer_telp').val() == '' || $('#foto_guru').val() == '' || jk == '' || $('#guru_pendamping').val() == '')
+      {
+         swal({
+            title: 'Opppss!',
+            text: 'Harap isi semua form!',
+            icon: 'warning',
+            buttons: {                  
+                confirm: {
+                    className : 'btn btn-focus'
+                }
+            },
+        });
+      }
+      else {
+        swal({
+          title: 'Yakin ditambah?',
+          icon: 'warning',
+          buttons:{
+            confirm: {
+              text : 'Tambah',
+              className : 'btn btn-success'
+            },
+            cancel: {
+              text : 'Tidak',
+              visible: true,
+              className: 'btn btn-focus'
+            }
+          }
+        }).then((Tambah) => {
+          if (Tambah) {
+            document.getElementById("form_tambah_siswa").submit();
+          } else {
+            swal.close();
+          }
+        });
+      }
+  });
+
+
+//EDIT
     $('#button_edit_guru').click(function(e) {
 
       if ($('#username').val() == '' || $('#password').val() == '' || $('#nip_guru').val() == '' || $('#nama_guru').val() == '' || $('#tgl_lahir').val() == '' || $('#nomer_telp').val() == '')

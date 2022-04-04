@@ -9,62 +9,26 @@
           </div>
 
           <!-- Content Row -->
-          <div class="card shadow mb-4">
-          <h5 class="mt-2 ml-2"> <b><u>Informasi Akun</u></b></h5>
-          <div class="row mt-4 ml-2 mr-2">
-
-            <div class="col-lg-10">
-            
-              <form class="user" id="form_tambah_guru" method="POST" action="<?= base_url(); ?>admin/tambah_guru" enctype="multipart/form-data">
-                
-                <div class="form-group">
-                  <label class="control-label col-md-3" 
-                    for="nama_barang">*Username : </label>
-                  <div class="col-md-8">
-                    <input type="text" class="form-control reset" 
-                      autocomplete="off" id="username"  
-                      name="username" placeholder="username Guru ..." required value="<?= set_value('username'); ?>">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="control-label col-md-4" 
-                    for="harga_barang">*Password : </label>
-                  <div class="col-md-8">
-                   <input type="text" class="form-control reset" 
-                      autocomplete="off"  id="password"  
-                      name="password" placeholder="password Guru ..." required value="<?= set_value('password'); ?>">
-                  </div>
-                </div>
-
-            </div><!-- end col-md-8 -->
-
-            
-          </div>
-        </div>
-
-
-        
-        <div class="card shadow">
-        <h5 class="mt-2 ml-2"> <b><u>Informasi Detail</u></b></h5>
+        <div class="card shadow  mb-4">
+        <form class="user" id="form_tambah_siswa" method="POST" action="<?= base_url(); ?>admin/tambah_siswa" enctype="multipart/form-data">
           <div class="row mb-2 mt-4 ml-2 mr-2">
 
             <div class="col-lg-8">
-              <div class="form-group">
+                <div class="form-group">
                   <label class="control-label col-md-3" 
-                    for="nama_barang">*NIP Guru : </label>
+                    for="nama_barang">*NIS : </label>
                   <div class="col-md-8">
-                    <input type="number" class="form-control reset" autocomplete="off" id="nip_guru"  
-                      name="nip_guru" placeholder="NIP Guru ..." required value="<?= set_value('nip_guru'); ?>">
+                    <input type="number" class="form-control reset" autocomplete="off" id="nis_siswa"  
+                      name="nip_guru" placeholder="NIS siswa ..." required value="<?= set_value('nis_siswa'); ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="control-label col-md-4" 
-                    for="harga_barang">*Nama Guru : </label>
+                    for="harga_barang">*Nama siswa : </label>
                   <div class="col-md-8">
-                   <input type="text" class="form-control reset" autocomplete="off"  id="nama_guru"  
-                      name="nama_guru" placeholder="Nama Guru ..." required value="<?= set_value('nama_guru'); ?>">
+                   <input type="text" class="form-control reset" autocomplete="off"  id="nama_siswa"  
+                      name="nama_siswa" placeholder="Nama siswa ..." required value="<?= set_value('nama_siswa'); ?>">
                   </div>
                 </div>
 
@@ -104,12 +68,15 @@
                 </div>
 
                 <div class="form-group">
-                  <label>Foto Guru :</label>
-                    <input type="file" class="form-control reset" name="foto_guru" id="foto_guru" accept="image/x-png,image/gif,image/jpeg" required value="<?= set_value('foto_guru'); ?>">
+                  <label>Foto siswa :</label>
+                    <input type="file" class="form-control reset" name="foto_siswa" id="foto_siswa" accept="image/x-png,image/gif,image/jpeg" required value="<?= set_value('foto_siswa'); ?>">
                 </div>
 
+                <?= $data_guru ?>
+
+
                     <hr>
-                    <button type="button" class="btn btn-primary btn-icon-split" id="button_tambah_guru">
+                    <button type="button" class="btn btn-primary btn-icon-split" id="button_tambah_siswa">
                       <span class="icon text-white-50">
                         <i class="fas fa-plus"></i>
                       </span>
