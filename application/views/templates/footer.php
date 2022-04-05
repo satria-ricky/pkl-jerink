@@ -240,6 +240,47 @@ $('#button_tambah_guru').click(function(e) {
   });
 
 
+  $('#button_tambah_aset').click(function(e) {
+
+if ( $('#nama_aset').val() == '' || $('#kondisi_aset').val() == '' || $('#banyak_aset').val() == '' ||  $('#foto_aset').val() == '')
+{
+   swal({
+      title: 'Opppss!',
+      text: 'Harap isi semua form!',
+      icon: 'warning',
+      buttons: {                  
+          confirm: {
+              className : 'btn btn-focus'
+          }
+      },
+  });
+}
+else {
+  swal({
+    title: 'Yakin ditambah?',
+    icon: 'warning',
+    buttons:{
+      confirm: {
+        text : 'Tambah',
+        className : 'btn btn-success'
+      },
+      cancel: {
+        text : 'Tidak',
+        visible: true,
+        className: 'btn btn-focus'
+      }
+    }
+  }).then((Tambah) => {
+    if (Tambah) {
+      document.getElementById("form_tambah_aset").submit();
+    } else {
+      swal.close();
+    }
+  });
+}
+});
+
+
 //EDIT
     $('#button_edit_guru').click(function(e) {
 
@@ -321,6 +362,49 @@ else {
   });
 }
 });
+
+
+
+$('#button_edit_aset').click(function(e) {
+
+  if ( $('#nama_aset').val() == '' || $('#kondisi_aset').val() == '' || $('#banyak_aset').val() == '')
+{
+   swal({
+      title: 'Opppss!',
+      text: 'Harap isi semua form!',
+      icon: 'warning',
+      buttons: {                  
+          confirm: {
+              className : 'btn btn-focus'
+          }
+      },
+  });
+}
+else {
+  swal({
+    title: 'Yakin diubah?',
+    icon: 'warning',
+    buttons:{
+      confirm: {
+        text : 'Ubah',
+        className : 'btn btn-success'
+      },
+      cancel: {
+        text : 'Tidak',
+        visible: true,
+        className: 'btn btn-focus'
+      }
+    }
+  }).then((edit) => {
+    if (edit) {
+      document.getElementById("form_edit_aset").submit();
+    } else {
+      swal.close();
+    }
+  });
+}
+});
+
 
   //HAPUS
   function button_hapus($is,$id) {
@@ -408,27 +492,7 @@ function button_detail(jenis,id) {
       }
     });
   }
-  else if (jenis == 'aset'){
-    $('#modal_detail_aset').modal('show');
-    $.ajax({
-      url: "<?php echo base_url(); ?>auth/get_aset_by_id",
-      data: {
-        id : id
-      },
-      type: "POST",
-      dataType: "json",
-      success: function(data) {
-          // console.log(data);
-          set_jabatan_edit(data.user_id_level);
-          document.getElementById("modal_edit_id_user").value = data.user_id;
-          document.getElementById("modal_edit_nama").value =  data.user_nama;
-          document.getElementById("modal_edit_username").value =  data.user_username;
-          document.getElementById("modal_edit_password").value =  data.user_password;
-          document.getElementById("modal_edit_data_ttd").src="<?= base_url('assets/foto/ttd/'); ?>"+data.user_ttd;
-          
-      }
-    });
-  } 
+ 
 }
 
 

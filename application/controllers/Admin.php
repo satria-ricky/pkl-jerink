@@ -655,6 +655,209 @@ public function index(){
 
 
 
+    public function edit_aset($id){
+
+        $v_id = decrypt_url($id);
+        $v_data['is_aktif'] = 'aset';
+        $v_data['judul_daftar'] = 'Edit Data Aset';
+        
+        $v_data['data'] = $this->M_read->get_aset_by_id($v_id)->row_array();
+
+        $this->form_validation->set_rules('nama_aset', 'Nama_aset', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+
+        if($this->form_validation->run() == false){
+            $this->load->view('templates/header');
+            $this->load->view('templates/sidebar',$v_data);
+            $this->load->view('templates/topbar');
+            $this->load->view('edit/edit_aset',$v_data);
+            $this->load->view('templates/footer');    
+        }
+        else{
+
+            $v_nama_aset = $this->input->post('nama_aset');
+            $v_kondisi_aset = $this->input->post('kondisi_aset');
+            $v_banyak_aset = $this->input->post('banyak_aset');
+            $upload_foto = $_FILES['foto_aset']['name'];
+
+                if($upload_foto){
+                    
+                    $config['allowed_types'] = 'gif|jpg|png|jpeg';
+                    $config['max_size']     = '5000';
+                    $config['upload_path'] = './assets/penyimpanan_foto/aset/';
+                        
+                    $this->load->library('upload', $config);
+    
+                    if ($this->upload->do_upload('foto_aset')){
+                        $v_nama_foto = $this->upload->data('file_name');
+                        $v_foto_lama = $v_data['data']['foto_aset'];
+                        unlink(FCPATH . 'assets/penyimpanan_foto/aset/' . $v_foto_lama);
+
+                        $v_data_informasi = [
+                            'nama_aset' => $v_nama_aset,
+                            'kondisi_aset' => $v_kondisi_aset,
+                            'banyak_aset' => $v_banyak_aset,
+                            'foto_aset' => $v_nama_foto
+                        ];
+                    }
+                    else
+                    {
+                        echo $this->upload->display_errors();
+                    }
+    
+                }else{
+                    $v_data_informasi = [
+                        'nama_aset' => $v_nama_aset,
+                        'kondisi_aset' => $v_kondisi_aset,
+                        'banyak_aset' => $v_banyak_aset
+                    ];
+                }
+
+                $this->M_update->edit_aset($v_data_informasi,$v_id);
+                $this->session->set_flashdata('pesan', 'Data berhasil diubah!');
+                redirect("admin/daftar_aset"); 
+        }
+    }
+
+
+    public function hapus_siswa($id){
+        $v_id = decrypt_url($id);
+        
+        $hapus_foto = $this->M_read->get_siswa_by_id($v_id)->row_array();
+        
+        unlink(FCPATH . 'assets/penyimpanan_foto/siswa/'. $hapus_foto['foto']);
+
+        $this->M_delete->delete_siswa($v_id);
+        $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
+        redirect('admin/daftar_siswa');
+    } 
+
+
+    //ASET
+
+    public function daftar_aset(){
+        $v_data['is_aktif'] = 'aset';
+        $v_data['judul_daftar'] = 'Daftar Aset';
+
+        $list_data = $this->M_read->get_aset();
+        $v_data['isi_konten'] = '';
+
+        $v_data['isi_konten'] .= '
+            
+            <table id="example" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                <tr>
+                    <th style="text-align: center;">NO</th>
+                    <th style="text-align: center;">Nama aset</th>
+                    <th style="text-align: center;">Kondisi</th>
+                    <th style="text-align: center;">Banyak aset</th>
+                    <th style="text-align: center;">Foto</th>
+                    <th style="text-align: center;">Aksi</th>
+                </tr>
+                </thead>
+            <tbody>  
+        ';
+
+        $index =1;
+        if($list_data->num_rows() > 0)
+        {
+            foreach($list_data->result() as $row)
+            {
+                $v_data['isi_konten'] .= '
+                    <tr>
+                        <td>'.$index.'</td>
+                        <td>'.$row->nama_aset.'</td>
+                        <td>'.$row->kondisi_aset.'</td>
+                        <td style="text-align: center;">'.$row->banyak_aset .'</td>
+                        <td style="text-align: center;"> 
+                            <img src="'.base_url().'assets/penyimpanan_foto/aset/'.$row->foto_aset.'" class="card-img-top" alt="..." style="width: 7rem;">
+                            </td>
+                        <td>
+                            <a href="'.base_url().'admin/edit_aset/'.encrypt_url($row->id_aset).'" class="badge badge-primary">Edit</a>
+                            <a href="javascript:;" class="badge badge-danger" onclick="button_hapus(\''."aset".'\', \''.encrypt_url($row->id_aset).'\')">Hapus</a >
+                        </td>
+                    </tr>
+
+                '; 
+                $index++;
+            }   
+        }
+
+    $v_data['isi_konten']  .= ' 
+            </tbody>
+        </table>
+    ';
+
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar',$v_data);
+        $this->load->view('templates/topbar');
+        $this->load->view('daftar/daftar',$v_data);
+        $this->load->view('templates/footer');  
+    }
+
+
+    public function tambah_aset(){
+        $v_data['is_aktif'] = 'aset';
+        $v_data['judul_daftar'] = 'Tambah Data Aset';
+
+
+        $this->form_validation->set_rules('nama_aset', 'Nama_aset', 'required|trim', [
+            'required' => 'Kolom harus diisi!',
+        ]);
+
+        if($this->form_validation->run() == false){
+            $this->load->view('templates/header');
+            $this->load->view('templates/sidebar',$v_data);
+            $this->load->view('templates/topbar');
+            $this->load->view('tambah/tambah_aset',$v_data);
+            $this->load->view('templates/footer');    
+        }
+        else{
+
+            $v_nama_aset = $this->input->post('nama_aset');
+            $v_kondisi_aset = $this->input->post('kondisi_aset');
+            $v_banyak_aset = $this->input->post('banyak_aset');
+            $upload_foto = $_FILES['foto_aset']['name'];
+
+                if($upload_foto){
+                    
+                    $config['allowed_types'] = 'gif|jpg|png|jpeg';
+                    $config['max_size']     = '5000';
+                    $config['upload_path'] = './assets/penyimpanan_foto/aset/';
+                        
+                    $this->load->library('upload', $config);
+    
+                    if ($this->upload->do_upload('foto_aset')){
+                        $v_nama_foto = $this->upload->data('file_name');
+                        $v_data_informasi = [
+                            'nama_aset' => $v_nama_aset,
+                            'kondisi_aset' => $v_kondisi_aset,
+                            'banyak_aset' => $v_banyak_aset,
+                            'foto_aset' => $v_nama_foto
+                        ];
+                    }
+                    else
+                    {
+                        echo $this->upload->display_errors();
+                    }
+    
+                }else{
+                    $v_data_informasi = [
+                        'nama_aset' => $v_nama_aset,
+                        'kondisi_aset' => $v_kondisi_aset,
+                        'banyak_aset' => $v_banyak_aset
+                    ];
+                }
+
+                $this->M_create->create_aset($v_data_informasi);
+                $this->session->set_flashdata('pesan', 'Data berhasil ditambah!');
+                redirect("admin/daftar_aset");       
+
+        }
+    }
+
+
     public function edit_siswa($id){
 
         $v_id = decrypt_url($id);
@@ -758,82 +961,6 @@ public function index(){
                 $this->session->set_flashdata('pesan', 'Data berhasil diubah!');
                 redirect("admin/daftar_siswa"); 
         }
-    }
-
-
-    public function hapus_siswa($id){
-        $v_id = decrypt_url($id);
-        
-        $hapus_foto = $this->M_read->get_siswa_by_id($v_id)->row_array();
-        
-        unlink(FCPATH . 'assets/penyimpanan_foto/siswa/'. $hapus_foto['foto']);
-
-        $this->M_delete->delete_siswa($v_id);
-        $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
-        redirect('admin/daftar_siswa');
-    } 
-
-
-    //ASET
-
-    public function daftar_aset(){
-        $v_data['is_aktif'] = 'aset';
-        $v_data['judul_daftar'] = 'Daftar Aset';
-
-        $list_data = $this->M_read->get_aset();
-        $v_data['isi_konten'] = '';
-
-        $v_data['isi_konten'] .= '
-            
-            <table id="example" class="table table-striped table-bordered" style="width:100%">
-                <thead>
-                <tr>
-                    <th style="text-align: center;">NO</th>
-                    <th style="text-align: center;">Nama aset</th>
-                    <th style="text-align: center;">Kondisi</th>
-                    <th style="text-align: center;">Banyak aset</th>
-                    <th style="text-align: center;">Foto</th>
-                    <th style="text-align: center;">Aksi</th>
-                </tr>
-                </thead>
-            <tbody>  
-        ';
-
-        $index =1;
-        if($list_data->num_rows() > 0)
-        {
-            foreach($list_data->result() as $row)
-            {
-                $v_data['isi_konten'] .= '
-                    <tr>
-                        <td>'.$index.'</td>
-                        <td>'.$row->nama_aset.'</td>
-                        <td>'.$row->kondisi_aset.'</td>
-                        <td style="text-align: center;">'.$row->banyak_aset .'</td>
-                        <td style="text-align: center;"> 
-                            <img src="'.base_url().'assets/penyimpanan_foto/aset/'.$row->foto_aset.'" class="card-img-top" alt="..." style="width: 7rem;">
-                            </td>
-                        <td>
-                            <a href="'.base_url().'admin/edit_aset/'.encrypt_url($row->id_aset).'" class="badge badge-primary">Edit</a>
-                            <a href="javascript:;" class="badge badge-danger" onclick="button_hapus(\''."aset".'\', \''.encrypt_url($row->id_aset).'\')">Hapus</a >
-                        </td>
-                    </tr>
-
-                '; 
-                $index++;
-            }   
-        }
-
-    $v_data['isi_konten']  .= ' 
-            </tbody>
-        </table>
-    ';
-
-        $this->load->view('templates/header');
-        $this->load->view('templates/sidebar',$v_data);
-        $this->load->view('templates/topbar');
-        $this->load->view('daftar/daftar',$v_data);
-        $this->load->view('templates/footer');  
     }
 
 

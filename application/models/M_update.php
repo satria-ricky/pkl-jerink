@@ -22,4 +22,9 @@ class M_update extends CI_model {
   } 
 
 
+  //ASET
+  public function edit_aset($data,$id){     
+    $this->db->update('tb_aset', $data, array('id_aset' => $id));
+  } 
+
 }
