@@ -132,7 +132,7 @@ public function index(){
         ';
         $this->load->view('templates/header',$v_data);
         $this->load->view('templates/sidebar',$v_data);
-        $this->load->view('templates/topbar',$v_data);
+        $this->load->view('templates/topbar_admin',$v_data);
         $this->load->view('beranda/beranda',$v_data);
         $this->load->view('templates/footer');            
     }
@@ -164,7 +164,7 @@ public function index(){
         if($this->form_validation->run() == false){
             $this->load->view('templates/header',$v_data);
             $this->load->view('templates/sidebar',$v_data);
-            $this->load->view('templates/topbar',$v_data);
+            $this->load->view('templates/topbar_admin',$v_data);
             $this->load->view('profile/profile',$v_data);
             $this->load->view('templates/footer');       
         }
@@ -227,7 +227,7 @@ public function index(){
         if($this->form_validation->run() == false){
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar',$v_data);
-            $this->load->view('templates/topbar');
+            $this->load->view('templates/topbar_admin',$v_data);
             $this->load->view('profile/profile',$v_data);
             $this->load->view('templates/footer');       
         }
@@ -306,7 +306,7 @@ public function index(){
 
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar',$v_data);
-        $this->load->view('templates/topbar');
+        $this->load->view('templates/topbar_admin',$v_data);
         $this->load->view('daftar/daftar',$v_data);
         $this->load->view('templates/footer');  
     }
@@ -331,7 +331,7 @@ public function index(){
         if($this->form_validation->run() == false){
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar',$v_data);
-            $this->load->view('templates/topbar');
+            $this->load->view('templates/topbar_admin',$v_data);
             $this->load->view('tambah/tambah_guru',$v_data);
             $this->load->view('templates/footer');    
         }
@@ -417,7 +417,7 @@ public function index(){
         if($this->form_validation->run() == false){
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar',$v_data);
-            $this->load->view('templates/topbar');
+            $this->load->view('templates/topbar_admin',$v_data);
             $this->load->view('edit/edit_guru',$v_data);
             $this->load->view('templates/footer');    
         }
@@ -556,7 +556,7 @@ public function index(){
 
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar',$v_data);
-        $this->load->view('templates/topbar');
+        $this->load->view('templates/topbar_admin',$v_data);
         $this->load->view('daftar/daftar',$v_data);
         $this->load->view('templates/footer');  
     }
@@ -596,7 +596,7 @@ public function index(){
         if($this->form_validation->run() == false){
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar',$v_data);
-            $this->load->view('templates/topbar');
+            $this->load->view('templates/topbar_admin',$v_data);
             $this->load->view('tambah/tambah_siswa',$v_data);
             $this->load->view('templates/footer');    
         }
@@ -670,7 +670,7 @@ public function index(){
         if($this->form_validation->run() == false){
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar',$v_data);
-            $this->load->view('templates/topbar');
+            $this->load->view('templates/topbar_admin',$v_data);
             $this->load->view('edit/edit_aset',$v_data);
             $this->load->view('templates/footer');    
         }
@@ -791,7 +791,7 @@ public function index(){
 
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar',$v_data);
-        $this->load->view('templates/topbar');
+        $this->load->view('templates/topbar_admin',$v_data);
         $this->load->view('daftar/daftar',$v_data);
         $this->load->view('templates/footer');  
     }
@@ -809,7 +809,7 @@ public function index(){
         if($this->form_validation->run() == false){
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar',$v_data);
-            $this->load->view('templates/topbar');
+            $this->load->view('templates/topbar_admin',$v_data);
             $this->load->view('tambah/tambah_aset',$v_data);
             $this->load->view('templates/footer');    
         }
@@ -904,7 +904,7 @@ public function index(){
         if($this->form_validation->run() == false){
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar',$v_data);
-            $this->load->view('templates/topbar');
+            $this->load->view('templates/topbar_admin',$v_data);
             $this->load->view('edit/edit_siswa',$v_data);
             $this->load->view('templates/footer');    
         }
