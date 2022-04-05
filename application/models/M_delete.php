@@ -18,4 +18,11 @@ class M_delete extends CI_model {
       $this->db->delete('tb_siswa');
     }
 
+
+    //ASET
+    public function delete_aset($v_id) {
+      $this->db->where('id_aset', $v_id);
+      $this->db->delete('tb_aset');
+    }
+
 }

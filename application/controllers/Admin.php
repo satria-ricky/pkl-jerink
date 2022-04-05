@@ -774,7 +774,80 @@ public function index(){
     } 
 
 
+    //ASET
 
+    public function daftar_aset(){
+        $v_data['is_aktif'] = 'aset';
+        $v_data['judul_daftar'] = 'Daftar Aset';
+
+        $list_data = $this->M_read->get_aset();
+        $v_data['isi_konten'] = '';
+
+        $v_data['isi_konten'] .= '
+            
+            <table id="example" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                <tr>
+                    <th style="text-align: center;">NO</th>
+                    <th style="text-align: center;">Nama aset</th>
+                    <th style="text-align: center;">Kondisi</th>
+                    <th style="text-align: center;">Banyak aset</th>
+                    <th style="text-align: center;">Foto</th>
+                    <th style="text-align: center;">Aksi</th>
+                </tr>
+                </thead>
+            <tbody>  
+        ';
+
+        $index =1;
+        if($list_data->num_rows() > 0)
+        {
+            foreach($list_data->result() as $row)
+            {
+                $v_data['isi_konten'] .= '
+                    <tr>
+                        <td>'.$index.'</td>
+                        <td>'.$row->nama_aset.'</td>
+                        <td>'.$row->kondisi_aset.'</td>
+                        <td style="text-align: center;">'.$row->banyak_aset .'</td>
+                        <td style="text-align: center;"> 
+                            <img src="'.base_url().'assets/penyimpanan_foto/aset/'.$row->foto_aset.'" class="card-img-top" alt="..." style="width: 7rem;">
+                            </td>
+                        <td>
+                            <a href="'.base_url().'admin/edit_aset/'.encrypt_url($row->id_aset).'" class="badge badge-primary">Edit</a>
+                            <a href="javascript:;" class="badge badge-danger" onclick="button_hapus(\''."aset".'\', \''.encrypt_url($row->id_aset).'\')">Hapus</a >
+                        </td>
+                    </tr>
+
+                '; 
+                $index++;
+            }   
+        }
+
+    $v_data['isi_konten']  .= ' 
+            </tbody>
+        </table>
+    ';
+
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar',$v_data);
+        $this->load->view('templates/topbar');
+        $this->load->view('daftar/daftar',$v_data);
+        $this->load->view('templates/footer');  
+    }
+
+
+    public function hapus_aset($id){
+        $v_id = decrypt_url($id);
+        
+        $hapus_foto = $this->M_read->get_aset_by_id($v_id)->row_array();
+        
+        unlink(FCPATH . 'assets/penyimpanan_foto/aset/'. $hapus_foto['foto_aset']);
+
+        $this->M_delete->delete_aset($v_id);
+        $this->session->set_flashdata('pesan', 'Data berhasil dihapus!');
+        redirect('admin/daftar_aset');
+    } 
 
 
 }   

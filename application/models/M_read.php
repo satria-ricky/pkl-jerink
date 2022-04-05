@@ -67,6 +67,15 @@ class M_read extends CI_model {
       return $query=$this->db->query($sql);
     }
 
+    public function get_aset(){
+      $sql='SELECT * FROM tb_aset ORDER BY id_aset ASC';
+      return $query=$this->db->query($sql);
+    }
+
+    public function get_aset_by_id($id){
+      $sql='SELECT * FROM tb_aset WHERE id_aset = ?';
+      return $query=$this->db->query($sql,$id);
+    }
 
 
     //PROFILE

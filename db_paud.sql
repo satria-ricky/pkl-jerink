@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 30 Mar 2022 pada 07.24
+-- Waktu pembuatan: 05 Apr 2022 pada 09.05
 -- Versi server: 10.4.20-MariaDB
 -- Versi PHP: 7.4.22
 
@@ -58,14 +58,6 @@ CREATE TABLE `tb_guru` (
   `foto_guru` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data untuk tabel `tb_guru`
---
-
-INSERT INTO `tb_guru` (`id_guru`, `nip_guru`, `nama_guru`, `tgl_guru`, `jk_guru`, `telp_guru`, `foto_guru`) VALUES
-(2, '1234', 'nama guru 2', 'tgl a', 'a', 'a', 'a'),
-(3, '35467890897', 'Zihad Al-Haq', '25-12-3234', 'L', '098765433', '');
-
 -- --------------------------------------------------------
 
 --
@@ -74,7 +66,7 @@ INSERT INTO `tb_guru` (`id_guru`, `nip_guru`, `nama_guru`, `tgl_guru`, `jk_guru`
 
 CREATE TABLE `tb_siswa` (
   `id_siswa` int(11) NOT NULL,
-  `no_absen` int(3) NOT NULL,
+  `nis_siswa` int(3) NOT NULL,
   `nama_siswa` varchar(255) NOT NULL,
   `tgl_siswa` varchar(255) NOT NULL,
   `jk_siswa` varchar(255) NOT NULL,
@@ -82,15 +74,6 @@ CREATE TABLE `tb_siswa` (
   `foto` varchar(255) NOT NULL,
   `id_guru_siswa` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `tb_siswa`
---
-
-INSERT INTO `tb_siswa` (`id_siswa`, `no_absen`, `nama_siswa`, `tgl_siswa`, `jk_siswa`, `telp_siswa`, `foto`, `id_guru_siswa`) VALUES
-(1, 1, 'Sumiati', '12 Desember 1998', 'L', '0987765658', '', 1),
-(2, 2, 'n', 't', 'j', 't', 'f', 2),
-(3, 1, 'baru', 'ba', 'q', 'q', 'q', 2);
 
 -- --------------------------------------------------------
 
@@ -110,9 +93,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `username`, `password`, `level_user`) VALUES
-(1, 'admin1', 'admin1', 1),
-(2, 'Guru1', 'Guru1', 2),
-(3, 'Guru2', 'Guru2', 2);
+(1, 'admin1', 'admin1', 1);
 
 --
 -- Indexes for dumped tables
@@ -156,19 +137,19 @@ ALTER TABLE `tb_aset`
 -- AUTO_INCREMENT untuk tabel `tb_guru`
 --
 ALTER TABLE `tb_guru`
-  MODIFY `id_guru` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_guru` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_siswa`
 --
 ALTER TABLE `tb_siswa`
-  MODIFY `id_siswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_siswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_user` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
