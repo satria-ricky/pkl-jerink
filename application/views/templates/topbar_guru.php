@@ -28,12 +28,12 @@
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="<?= base_url('admin/'); ?>profile">
+                <a class="dropdown-item" href="<?= base_url('guru/'); ?>profile">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Profile
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?= base_url('admin/'); ?>pengaturan">
+                <a class="dropdown-item" href="<?= base_url('guru/'); ?>pengaturan">
                   <i class="fas fa-wrench fa-sm fa-fw mr-2 text-gray-400"></i>
                   Pengaturan Akun
                 </a>

@@ -37,6 +37,11 @@ class M_read extends CI_model {
       return $query=$this->db->query($sql);
     }
 
+    public function get_total_siswa_by_guru($id){
+      $sql='SELECT COUNT(id_siswa) AS total FROM tb_siswa WHERE id_guru_siswa = ?';
+      return $query=$this->db->query($sql,$id);
+    }
+
     public function get_siswa(){
       $sql='SELECT * FROM tb_siswa LEFT JOIN tb_guru ON tb_siswa.id_guru_siswa = tb_guru.id_guru ORDER BY id_siswa ASC';
       return $query=$this->db->query($sql);

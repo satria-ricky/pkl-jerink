@@ -87,7 +87,7 @@ public function index(){
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">DAFTAR GURU</div>
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">TOTAL GURU</div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800"> '.$total_guru['total'].' </div>
                     </div>
                     <div class="col-auto">
@@ -102,7 +102,7 @@ public function index(){
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">DAFTAR SISWA</div>
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">TOTAL SISWA</div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800"> '.$total_siswa['total'].' </div>
                     </div>
                     <div class="col-auto">
@@ -117,7 +117,7 @@ public function index(){
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">DAFTAR ASET</div>
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">TOTAL ASET</div>
                       <div class="h5 mb-0 font-weight-bold text-gray-800"> '.$total_aset['total'].' </div>
                     </div>
                     <div class="col-auto">
@@ -215,7 +215,6 @@ public function index(){
      public function pengaturan(){
         
         $v_id = $this->session->userdata('id_user');
-        $v_data['is_aktif'] = 'pengaturan';
 
         $v_data['data'] = $this->M_read->get_akun($v_id);
 
@@ -228,7 +227,7 @@ public function index(){
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar',$v_data);
             $this->load->view('templates/topbar_admin',$v_data);
-            $this->load->view('profile/profile',$v_data);
+            $this->load->view('profile/pengaturan',$v_data);
             $this->load->view('templates/footer');       
         }
         else{
