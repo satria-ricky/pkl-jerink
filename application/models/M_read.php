@@ -47,6 +47,10 @@ class M_read extends CI_model {
       return $query=$this->db->query($sql);
     }
 
+    public function get_siswa_by_guru($id){
+      $sql='SELECT * FROM tb_siswa LEFT JOIN tb_guru ON tb_siswa.id_guru_siswa = tb_guru.id_guru WHERE id_guru_siswa = ? ORDER BY id_siswa ASC';
+      return $query=$this->db->query($sql,$id);
+    }
 
     public function get_siswa_by_id($id){
       $sql='SELECT * FROM tb_siswa LEFT JOIN tb_guru ON tb_siswa.id_guru_siswa = tb_guru.id_guru WHERE id_siswa =?';

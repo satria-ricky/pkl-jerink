@@ -129,88 +129,50 @@ $('#button_edit_profile').click(function(e) {
     });
 
 
-//TAMBAH SISWA
-    $('#button_tambah_siswa').click(function(e) {
+$('#button_edit_profile').click(function(e) {
 
-      var radios = document.getElementsByName('jenis_kelamin');
-      var jk ='';
-      for (var i = 0, length = radios.length; i < length; i++) {
-        if (radios[i].checked) {
-          // do whatever you want with the checked radio
-          // alert(radios[i].value);
-          // console.log(radios[i].value);
-          jk = radios[i].value;
-          // only one radio can be logically checked, don't check the rest
-          break;
-        }
-      }
-
-      
-      if ( $('#nis_siswa').val() == '' || $('#nama_siswa').val() == '' || $('#tgl_lahir').val() == '' || $('#nomer_telp').val() == '' || $('#foto_siswa').val() == '' || jk == '' || $('#guru_pendamping').val() == '')
-      {
-         swal({
-            title: 'Opppss!',
-            text: 'Harap isi semua form!',
-            icon: 'warning',
-            buttons: {                  
-                confirm: {
-                    className : 'btn btn-focus'
-                }
-            },
-        });
-      }
-      else {
-        swal({
-          title: 'Yakin ditambah?',
-          icon: 'warning',
-          buttons:{
-            confirm: {
-              text : 'Tambah',
-              className : 'btn btn-success'
-            },
-            cancel: {
-              text : 'Tidak',
-              visible: true,
-              className: 'btn btn-focus'
-            }
+if ( $('#nip_guru').val() == '' || $('#nama_guru').val() == '' || $('#tgl_lahir').val() == '' || $('#nomer_telp').val() == '')
+{
+   swal({
+      title: 'Opppss!',
+      text: 'Harap isi semua form!',
+      icon: 'warning',
+      buttons: {                  
+          confirm: {
+              className : 'btn btn-focus'
           }
-        }).then((Tambah) => {
-          if (Tambah) {
-            document.getElementById("form_tambah_siswa").submit();
-          } else {
-            swal.close();
-          }
-        });
-      }
+      },
   });
+}
+else {
+  swal({
+    title: 'Yakin diubah?',
+    icon: 'warning',
+    buttons:{
+      confirm: {
+        text : 'Ubah',
+        className : 'btn btn-success'
+      },
+      cancel: {
+        text : 'Tidak',
+        visible: true,
+        className: 'btn btn-focus'
+      }
+    }
+  }).then((edit) => {
+    if (edit) {
+      document.getElementById("form_edit_profile").submit();
+    } else {
+      swal.close();
+    }
+  });
+}
+});
 
 
 function button_detail(jenis,id) {
   // console.log(jenis,id);
-  if (jenis == 'guru') {
-    $('#modal_detail_guru').modal('show');
-    $.ajax({
-      url: "<?php echo base_url(); ?>auth/get_guru_by_id",
-      data: {
-        id : id
-      },
-      type: "POST",
-      dataType: "json",
-      success: function(data) {
-          // console.log(data);
-          $('#modal_nip_guru').html('NIP.'+data.nip_guru);
-          document.getElementById("modal_nama_guru").value =  data.nama_guru;
-          document.getElementById("modal_tgl_guru").value =  data.tgl_guru;
-          document.getElementById("modal_password_guru").value =  data.password;
-          document.getElementById("modal_username_guru").value =  data.username;
-          document.getElementById("modal_jk_guru").value =  data.jk_guru;
-          document.getElementById("modal_telp_guru").value =  data.telp_guru;
-          document.getElementById("modal_foto_guru").src="<?= base_url('assets/penyimpanan_foto/guru/'); ?>"+data.foto_guru;
-          
-      }
-    });
-  }
-  else if (jenis == 'siswa'){
+   if (jenis == 'siswa'){
     $('#modal_detail_siswa').modal('show');
     $.ajax({
       url: "<?php echo base_url(); ?>auth/get_siswa_by_id",
@@ -226,7 +188,6 @@ function button_detail(jenis,id) {
           document.getElementById("modal_tgl_siswa").value =  data.tgl_siswa;
           document.getElementById("modal_jk_siswa").value =  data.jk_siswa;
           document.getElementById("modal_telp_siswa").value =  data.telp_siswa;
-          document.getElementById("modal_guru_siswa").value =  data.nama_guru;
           document.getElementById("modal_foto_siswa").src="<?= base_url('assets/penyimpanan_foto/siswa/'); ?>"+data.foto;
           
       }
@@ -286,12 +247,7 @@ function button_detail(jenis,id) {
             <input type="text" class="form-control" id="modal_telp_siswa" placeholder="col-form-label" readonly>
           </div>
         </div>
-        <div class="form-group row">
-          <label for="colFormLabel" class="col-sm-4 col-form-label">Guru Pembimbing</label>
-          <div class="col-sm-8">
-            <input type="text" class="form-control" id="modal_guru_siswa" placeholder="col-form-label" readonly>
-          </div>
-        </div>
+        
       </div>
 
 

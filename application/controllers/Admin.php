@@ -144,7 +144,7 @@ public function index(){
     public function profile(){
         
         $v_id = $this->session->userdata('id_user');
-
+        $v_data['is_aktif'] = 'profile';
         $v_data['data'] = $this->M_read->get_profile($v_id);
 
         $this->form_validation->set_rules('nama', 'Nama', 'required|trim', [

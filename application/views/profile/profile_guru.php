@@ -9,56 +9,17 @@
           </div>
 
           <!-- Content Row -->
-          <div class="card shadow mb-4">
-          <h5 class="mt-2 ml-2"> <b><u>Informasi Akun</u></b></h5>
-          <div class="row mt-4 ml-2 mr-2">
-
-            <div class="col-lg-9">
-            
-              <form class="user" id="form_edit_guru" method="POST" enctype="multipart/form-data">
-                <input type="hidden" value="<?= $data['id_guru']; ?>" name="user_id" >
-                <div class="form-group">
-                  <label class="control-label col-md-3" 
-                    for="nama_barang">*Username : </label>
-                  <div class="col-md-8">
-                    <input type="text" class="form-control reset" 
-                      autocomplete="off" id="username"  
-                      name="username" placeholder="username Guru ..." required value="<?= $data['username']; ?>">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="control-label col-md-4" 
-                    for="harga_barang">*Password : </label>
-                  <div class="col-md-8">
-                   <input type="text" class="form-control reset" 
-                      autocomplete="off"  id="password"  
-                      name="password" placeholder="password Guru ..." required value="<?= $data['password']; ?>">
-                  </div>
-                </div>
-
-            </div><!-- end col-md-8 -->
-
-            <div class="col-md-2 mb-4">
-              <div class="card" style="width: 150px; height:150px; border: none;">
-              <img  src="<?= base_url('assets/penyimpanan_foto/guru/').$data['foto_guru'] ?> " alt="...">
-            </div>
-            </div>
-
-            
-          </div>
-        </div>
-
-
         
         <div class="card shadow mb-2">
-        <h5 class="mt-2 ml-2"> <b><u>Informasi Detail</u></b></h5>
+        <form class="user" id="form_edit_profile" method="POST" enctype="multipart/form-data">
+                <input type="hidden" value="<?= $data['id_guru']; ?>" name="user_id" >
+
           <div class="row mb-2 mt-4 ml-2 mr-2">
 
-            <div class="col-lg-8">
+            <div class="col-lg-7">
               <div class="form-group">
                   <label class="control-label col-md-3" 
-                    for="nama_barang">*NIP Guru : </label>
+                    for="nama_barang">*NIP : </label>
                   <div class="col-md-8">
                     <input type="number" class="form-control reset" autocomplete="off" id="nip_guru"  
                       name="nip_guru" placeholder="NIP Guru ..." required value="<?= $data['nip_guru']; ?>">
@@ -67,7 +28,7 @@
 
                 <div class="form-group">
                   <label class="control-label col-md-4" 
-                    for="harga_barang">*Nama Guru : </label>
+                    for="harga_barang">*Nama : </label>
                   <div class="col-md-8">
                    <input type="text" class="form-control reset" autocomplete="off"  id="nama_guru"  
                       name="nama_guru" placeholder="Nama Guru ..." required value="<?= $data['nama_guru']; ?>">
@@ -101,7 +62,7 @@
             </div><!-- end col-md-8 -->
 
 
-            <div class="col-md-4 mb">
+            <div class="col-md-5">
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="total" class="besar">*Nomor Telpon :</label>
@@ -110,12 +71,15 @@
                 </div>
 
                 <div class="form-group">
-                  <label>Ubah Foto Guru :</label>
+                  <div class="card" style="width: 150px; height:130px; border: none;">
+                  <img  src="<?= base_url('assets/penyimpanan_foto/guru/').$data['foto_guru'] ?> " alt="...">
+                  </div>
+                  <label>Ubah Foto :</label>
                     <input type="file" class="form-control reset" name="foto_guru" id="foto_guru" accept="image/x-png,image/gif,image/jpeg" required>
                 </div>
 
                     <hr>
-                    <button type="button" class="btn btn-primary btn-icon-split" id="button_edit_guru">
+                    <button type="button" class="btn btn-primary btn-icon-split" id="button_edit_profile">
                       <span class="icon text-white-50">
                         <i class="fas fa-edit"></i>
                       </span>

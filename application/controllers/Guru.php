@@ -10,6 +10,26 @@ class Guru extends CI_Controller {
 
 
 
+function validasi_nip()
+{
+    $v_nip = $this->input->post('nip_guru');
+    $v_id = $this->input->post('user_id');
+
+    if (!$v_id) {
+        if ($this->M_read->cek_nip_aja($v_nip)) {
+            $this->session->set_flashdata('error', 'NIP telah tersedia!');
+            return FALSE;   
+        }
+        return TRUE;
+    }else {
+        if ($this->M_read->cek_nip($v_nip,$v_id)) {
+            $this->session->set_flashdata('error', 'NIP telah tersedia!');
+            return FALSE;   
+        }
+        return TRUE;    
+    }
+}
+
 function validasi_username()
 {
     $v_username = $this->input->post('username');
@@ -69,6 +89,7 @@ function validasi_username()
     //PENGATURAN
     public function pengaturan(){
         
+        $v_data['is_aktif'] = 'pengaturan';
         $v_id = $this->session->userdata('id_user');
 
         $v_data['data'] = $this->M_read->get_akun($v_id);
@@ -104,14 +125,10 @@ function validasi_username()
     public function profile(){
 
         $v_id = $this->session->userdata('id_user');
-        $v_data['judul_daftar'] = 'Edit Data Guru';
-
+        $v_data['judul_daftar'] = 'Profile';
+        $v_data['is_aktif'] = 'profile';
         $v_data['data'] = $this->M_read->get_guru_by_id($v_id)->row_array();
-            
-        $this->form_validation->set_rules('username', 'Username', 'required|trim|callback_validasi_username', [
-            'required' => 'Kolom harus diisi!',
-        ]);
-
+        
         $this->form_validation->set_rules('nip_guru', 'Nip_guru', 'required|trim|callback_validasi_nip', [
             'required' => 'Kolom harus diisi!',
         ]);
@@ -125,8 +142,7 @@ function validasi_username()
         }
         else{
 
-            $v_username = $this->input->post('username');
-            $v_password = $this->input->post('password');
+            
             $v_nip_guru = $this->input->post('nip_guru');
             $v_nama_guru = $this->input->post('nama_guru');
             $v_jenis_kelamin = $this->input->post('jenis_kelamin');
@@ -172,19 +188,74 @@ function validasi_username()
                     ];
                 }
 
-                $v_id_akun = $this->M_update->edit_informasi_guru($v_data_informasi,$v_id);
+                $this->M_update->edit_informasi_guru($v_data_informasi,$v_id);
 
-                $v_data_akun_guru = [
-                    'username' => $v_username,
-                    'password' => $v_password
-                ];
-
-                $this->M_update->edit_akun_guru($v_data_akun_guru,$v_id);
                 $this->session->set_flashdata('pesan', 'Data berhasil diubah!');
                 redirect("guru/profile"); 
 
         }
     }
+
+
+    public function daftar_siswa(){
+        $v_data['is_aktif'] = 'siswa';
+        $v_data['judul_daftar'] = 'Daftar Siswa';
+
+        $list_data = $this->M_read->get_siswa_by_guru($this->session->userdata('id_user'));
+        $v_data['isi_konten'] = '';
+
+        $v_data['isi_konten'] .= '
+            
+            <table id="example" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                <tr>
+                    <th style="text-align: center;">NO</th>
+                    <th style="text-align: center;">NIS</th>
+                    <th style="text-align: center;">Nama Siswa</th>
+                    <th style="text-align: center;">Tanggal Lahir</th>
+                    <th style="text-align: center;">Jenis Kelamin</th>
+                    <th style="text-align: center;">No. Telpon</th>
+                    <th style="text-align: center;">Aksi</th>
+                </tr>
+                </thead>
+            <tbody>  
+        ';
+
+        $index =1;
+        if($list_data->num_rows() > 0)
+        {
+            foreach($list_data->result() as $row)
+            {
+                $v_data['isi_konten'] .= '
+                    <tr>
+                        <td>'.$index.'</td>
+                        <td>'.$row->nis_siswa.'</td>
+                        <td>'.$row->nama_siswa.'</td>
+                        <td>'.$row->tgl_siswa.'</td>
+                        <td style="text-align: center;">'.$row->jk_siswa.'</td>
+                        <td>'.$row->telp_siswa.'</td>
+                        <td>
+                            <a href="javascript:;" class="badge badge-info" onclick="button_detail(\''."siswa".'\', \''.encrypt_url($row->id_siswa).'\')">Detail</a>
+                        </td>
+                    </tr>
+
+                '; 
+                $index++;
+            }   
+        }
+
+    $v_data['isi_konten']  .= ' 
+            </tbody>
+        </table>
+    ';
+
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar_guru',$v_data);
+        $this->load->view('templates/topbar_guru',$v_data);
+        $this->load->view('daftar/daftar',$v_data);
+        $this->load->view('templates/footer_guru');  
+    }
+
 
 
 }   
