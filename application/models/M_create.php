@@ -1,5 +1,25 @@
 <?php
+
+use GuzzleHttp\Client;
 class M_create extends CI_model {
+
+
+	 //TES api
+	 public function create_api_guru($v_data) {
+    
+		$client = new Client();
+	
+		$response = $client->request('POST', 'http://localhost/test_api/api/guru', [
+		  'form_params' => $v_data
+		]);
+	
+		
+		$hasil = json_decode($response->getBody()->getContents(), true);
+	
+		// var_dump($result['data']);
+		return $hasil;
+	  }
+
 
 	//GURU
 	public function create_guru($v_data)

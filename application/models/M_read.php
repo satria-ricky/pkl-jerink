@@ -1,6 +1,44 @@
 <?php
+
+use GuzzleHttp\Client;
+
 class M_read extends CI_model {
 
+
+  // TES
+
+  public function get_api_guru(){
+
+    $client = new Client();
+
+    $response = $client->request('GET', 'http://localhost/test_api/api/guru', [
+      'query' => [
+        'nama_key' => 'isikey'
+      ]
+    ]);
+
+    $hasil = json_decode($response->getBody()->getContents(), true);
+
+    // var_dump($result['data']);
+    return $hasil['data'];
+  }
+
+
+  public function get_api_guru_by_id($id){
+    $client = new Client();
+
+    $response = $client->request('GET', 'http://localhost/test_api/api/guru', [
+      'query' => [
+        'nama_key' => 'isikey',
+        'id' => $id
+      ]
+    ]);
+
+    $hasil = json_decode($response->getBody()->getContents(), true);
+
+    // var_dump($result['data']);
+    return $hasil['data'][0];
+   }
 
     //GURU
 

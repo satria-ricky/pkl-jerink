@@ -1,6 +1,29 @@
 <?php
+
+use GuzzleHttp\Client;
+
 class M_update extends CI_model {
 
+
+
+  	 //TES api
+     public function edit_api_guru($v_data) {
+    
+      $client = new Client();
+    
+      $response = $client->request('PUT', 'http://localhost/test_api/api/guru', [
+        'form_params' => $v_data
+      ]);
+    
+      
+      $hasil = json_decode($response->getBody()->getContents(), true);
+    
+      // var_dump($result['data']);
+      return $hasil;
+      }
+  
+
+      
     //PFORILE
     public function edit_profile($data,$id){     
       $this->db->update('users', $data, array('id_user' => $id));
